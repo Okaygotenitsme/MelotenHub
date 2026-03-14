@@ -1,3 +1,530 @@
--- obfuscated @ discord.gg/25ms, obfuscation: ib2 fork
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TweenService = game:GetService("TweenService")
+local StarterGui = game:GetService("StarterGui")
+local Lighting = game:GetService("Lighting")
 
-return(function(...)local e,P,a=table,string,bit local o,t,l,b,P,d,s,i,U,n,O=P.byte,P.char,P.sub,e.concat,e.insert,math.ldexp,getfenv and getfenv()or _ENV,setmetatable,select,unpack or e.unpack,tonumber;local f=(function(f)local P,U,Q,O,c,o,n=1,function(Q)local P=""for O=1,#Q,1 do P=P..t(o(Q,O)-(30))end return O(P,36)end,"","",{},256,{}for P=0,o-1 do n[P]=t(P)end;local function a()local Q=U(l(f,P,P))P=P+1;local O=U(l(f,P,P+Q-1))P=P+Q;return O end;Q=t(a())c[1]=Q;while P<#f do local P=a()if n[P]then O=n[P]else O=Q..l(Q,1,1)end;n[o]=Q..l(O,1,1)c[#c+1],Q,o=O,O,o+1 end;return e.concat(c)end)("ONPPqPUSPPqPPmPUTOQOSOWOOPPqPQPPUTOxOOOePOhOOOkOgObOUPUbPPpPUTPOeOVOSOrPUjOlPPqPQWPUTPOgOOOiOVPUmOSOeOOONPOhOeO`OkOSOQPUbPPuPUTPOaOhOOOOO_PUiPUkPUmPUbPQQPUTPORO`OUOSOVPUrPUtPUjPPqPVgPUSPOdOSObOeOwPVbPOQOaObOVPURPQOPUqPUsPUuOkOxOfObPPrPUTPUTPPVPONPPqPQNPUTPOWO_OlOeOSO_PUnPPqPPtPUTO_OOOhPPqPWfPUSPOhOUOkPVkO_PWkObPUUPUTPOTPU`PUbPPvPUTPOPPUsOUOdOwPUsOlOaP_gPWQPVOOOOlPUgPOUPVmOiOSOhO_PPsPUSPPwPUTPOoPWvONOOOqPOPOOOaOSPUlPVbP_iPUSOvO_OfOWPPqPUpP_aObOTPVSO_OQPPqPPoPUqOSP_dO_OePPqPPnPUTOwPVcPUaP__PUTPOSPWUO_PacP_lP`oPPqPOhObOsPUbPaaPUSPObOuObOWPPcPWnPWoPUTPbOPWoO_PONPbRPUSPRiOTPWrPWtPUSPOeO`OlPWVObO`O_PbVPUSPQmPPhPbkPPqPOkPRiPbkPRiPOgPRiPPqPQVP_oOSP_rOQOkO`OfO_ONPOQO`OVPVbPPdPaRPUTPcWPc`OkPcbP`vPPqOPPcROWPOgOxPOPPboPOqPWrPPxP_oPVbP`fOkPaoPaqPOeObOqOOOVPccPUSPOOOUOeObOgOOPPsPWnP_`PPqOuPVcOQPU_PaNPUbPbbPPqPObPOWPcWOkP_UOkP`NPUSPdrPdtPOgOSONObOfPUwPUVPatPavOWPboPOuPbaPUTPdpPV`PcROdParPcdPc_PVbPboPOaPbUPbPPTaOPPWrPdfPOaPWbP_rP_UOlOlPboPPqPenPbPPRRPbnPbPPfPPfQPWoPPgPfWP_jPerPVhP`gOePOROSOTPdSPbkPTaPOfPbvPQTPcNPcPPcRPcTONPOaPVcPWwP`UPaVOUOrPamPOaPfePPqPQ_PUTPRlPSgPRkPUPPRkPSfPOuPOPPORPOOPOQPO`POuOwPgfPOhPOVPUcPfdOqOePcePcaPboObPfaPUSPOnPgwPQmO`PebPUSPgRPgqPdNOOPboPPTPWrPeUPPqPW_PaWPgoPUSOxO`OeP`kOWPOPPc_PURP`bPhSPfePOmPOOPVSOQO_PUaPhePhbPOROOOPPa_PUdPhqPgqPOPOfOePVaPbjPfUPPkPgwPPqPORPbrPfUPOqPbvPaSPUSPgWPRkPTaPRkPTmPfkOdPiePPRPiePQVPiePPePikPgVPg_PTuPRkPTnPboPONPihPbPPPVPbvPbxPUSPOVPWVPOuOUPcSPaWPOuPPRPPbPPOPPVPPSPPkPdUPPqPhhPhjPU`P`uPgpOePhmOqPboPPePWrPbRPPbPboPPaPcsPWgPcOP`jPhnPUjPhTPa_PasPPqPPbPOuPPOPOuPPVPUxPk`PUnOaPkcOkPgsPcgPbwPcdOVOOPaUPkeP`SPW_OUPeSPboPQePiePOOPgwPTaPOePiePOkPiePPNPWrPVNPUSPOSPcSP`QPiWPi`PbiPPbPOQPVSP_rPjwPdwPbiP_UPd_PafPUSPlRPeSPVtPWxPhfPPqPljPeSOOP`qPVVPduPiTPmUPlkOOPiPP`lOOPmcPVrPUTPciPOcObPbfPdlPamPhVPa`PecPeWPPcP_RP_TP_VPfOPPqPboPbTPjVPhaPjxPjrPinPToPRkPSwPbsPb`PnWPg_PipPTmPbPPOxPWoPPOPfUPnmPnnPnoPboPnPPWnPbRPjcPUSPnsPnoPjrPPqPVrPnwPPmPORPUTPoPPUUPoSPUSPQUPnQPUSPPiPUTP``PUSPgUPoaP_SPUSPOuPnvPoaPUVPogP``PkgPogP_SPilPgTPUSPUVPoqPUSPaaPciPbQPmtP``PnuPPqP``PboPoiPPqPPaPWoPWtPWfPhbPPqPOwPoaPPqPocPUSPoePgTPOmPohPUTPokPoaPWnPonPpkPmtPofPUSPosPUTPogPowPqOPpNPmTPpQPaaPpSPWoPpVPfUPp_PpaPUTPWtPmkOPPpQPolPmlPUTOuP`POePcRPgPPWoPpePpjPbPPOuPpgPWoPbOPOsPodPphPqgPqiPdvPUSPdfPWaPaUPcOPmaPPqPhpPhcObPcUOwObOkPWxPWaPWcPURPciPljPdbP`QPa_PrbPavPdbOkPVePjjPrfPWxPboPfSPamPO`O_PWVPWsPUTPVnPUlPUnPUwPQRPqkPdaPUjPrvPWWPmoPUhPUjPs_PUbPplPOgOvPmNPPqPdWPd`OgPVUPVWPmTPrfP_dPsWPWPPotPcTP`UPlsPWoPOvPWoPqsPWoPOuPsoPqwPaRPfoPqSPoQPoWPmtPbOPrQPphPPqPquPtlP``PQ_PWnP_SPp_PPqPQdPpoP``PPoPfoPWnPoUPpsPthPoUPcjPqhPtmPpgPq`PtpPpsPamPtuPpUP_iPtxPUVP``PVNPbRPoRPUTPujPoVPqRPtjPuVPmxPp_PWnPQVPbxP_SPqVPqqPtlPpqPUVPUVPaSPvQP_iPvTPovP_iPUpPvUPUVPWtPvbPafPvePUdPvePVrPogPaSPWRPWoPUpPttPUSPaSPpPPv_PrRPuVPlhPrTPcdP`kPVcPd_PWPPhbOWPVUOaPamOaOfPVePraPabPrdONPsxPriPWbPWdPkvPjdP`sP_OO`ObONPOgO`PhiPOePaUPa_PotObP`UPrgPUwPmcPUfOePWNPWiPUwPdnPbdPbfPd`PbiPspPahPhvPWVOfP`fPspOhPVbOdOlPtSPUbPrbPxRPqlOlPUnPcUP_OOePUwPp_POWOlPOOPpvPmdP`fPdTPtePrcPrePxOPgrPwhONPOdPeuOaQONOQONQPdnPOVPwlO_PwnPURPotPOVPlNOVPhjPnPPbPPqpPobPnmPtaPbPPWnPuNPqdPprPuoPUSPWtPbOOxQOOSPofPOlPuePplQOONP``P``PoiPWfPtrPppPpgPukPgTQOOjPkgPudQOOjPtxPuOPknPtgPumPphQOO_QOOfPqOQOObP_SQOOdPsoPtsPmxPafQOOgPWoQOPNPuePofPpaQOPRPppPpxPusPouPvVPfUPaaPbRPpqPaaPpOPWoPaaPotPUTPhbPaSPpePPjPphPkmPdfPUTPocPmcPvqPOnPsUPokPWnPUdPulPojQOQNPafPukPthPP_PoaQOONPUdQOOVPtdPgoPOrQOOSQOQaPPqQOQnPbOQOQOPtlQOQpQOQgPWnPtnPVrQOQ`QOOnPPqP_nQOOpPtvPVrP_nQOOsPoOPPqPPNQOQoPthQORbQOQsQOQdQOPtQOQfQOQhPsoPVgPWnPvdPsoP_nPVrPbbPP`P`NPVgP_nQOONPVgPVgPWfPPoPPSP`NPcbQOOjQOQpQOSSQOOTPPqPPWPphPOQPmxPvmPPqQOSbP``PmkPUSQOQtPbRQOOQPWfQOPxQOOvPUSQOSnQOSWPPlPoaPPoPQSP_iPQgPoaP``QOQpQOSxPWnPQ_QOObPvSPqOPOgPmtPmcQOPnPmtQOShPmtQOPsPvtPccPpePUwQOQxPpgPWfPWtPVgPtqQOR`P_nPUTPtvPWfPVrQOR_PWfQOO_QOSoPjsPomPthQOTiPaRQOQUPWtPO_QOQuPthQOUVPuRPUTQOURPtnQOTlPwbPQ_POoQOR`PctPbPQOTtPuePpqQOQjP_iPogPVgQOOpPUSPUdPVgPtxPvxPOhQORcPsVQOUPQOUbQOStPUVPUdQOURPovQOUQQORjQOR`PWfPbxPPwPPRPknQOQUPuPQOSWQOVgQOSWQOVVPkmQOTcPgTPo`PVgQOTeQORRPvPPUSP_nP_nPpPP_nPrbPUTPvmP`bPpePqgQOQxPsoPVNPbxQOOPPOpPknPURQORmQOSWQOWcQOSWQOWTQOSiQOR`QOQePUTPwVQOOPQOSvPVgORQOTNQOSWQOWqQOOPPfoPVrQOURQOUaPUSQOUcQORkPoaQORnQOVsQOUoPPqQORsQORxQOVsQORwP`NQOSOQOSQPVgOjPpoQOQpQO_fQO_NPPqQOVVQOSbP_SQOSdQOSfPmTQOSuP_iQONQPWnQOTOPthQO_tPdwPufPWoQOSbPaaPttPpdQOPVPUSPtkPbRPpPPrUPwOPr_PWPPrbPrfQON_PrhQONaPrkPwjPPqQONjPwTQONlPwoPwqPwsPwuPjrPOQPakPaePp_P_UOhPnrPfUPQNPWrPbQQOSvQOQQPtlPojPsoPnwQOWuPoaQOPlQOVQPtfQO`VPuVPtnPu`QORQPUVPttPtvQOTOPueQOOQQOSgQOVOPUSPuTQO`WPppQOPTQOPtPgTQONQPvRQOPfP_iPqQPogQOPrPqRPccPotPogPUpPvsPv`QOPbQOPgP_SPUVPjcQOaoPvpPtlQOQPPnuPOPPcOOdPcQPjiPcVPejPkuPotPktPchPUTPckO`PcmPcoPncPiePOWPhOPhQPamP_NOlOdQONRQONTPUtPPrPUPPUOQOciQOciPTSPfTPvqPWoQObnQObpQObrPfsQObxQO`tQObuQOcNQO`VPclPcnPcpPfUPf`QOaPPbPPOTQOaSPUTQOQPQOccPfUPogQO_uQObRPnwP_SPooPamPorQONRPqPPoNPolPuhQO`kQOO`PtcPUTQOUjPatPnmQOdbQObePpqQOdeQOPiQOaoPpwPmxPoxQOPjQOOOQO`OPpTPnwPogPUSPciPpqPpbQOPiPdePUTPPoQOPxPplPnwPPqPPUPnnOcPrOPuqPrRQOQPPdnPiaP`sPfiPduPhbPkePtlPPbPsUPUSPVaPWxOkPrdPaQPwSPwUQONROUPUsOWOiQONROPPc`PekPfUPfSPboPixPbPPQePqOPOPPurPvuPtmPolQOdcPbPQOPOQOPsPUpQOWkQOeaQOaePgoPbOPocPbkPPaQOSsQOdcQObgPthPo`QOgUQOaWPgTPOkPuePhbQOdiPkgPpqQOPUPaSQOdkQOglPv_PUVPpPQOUsQObNQOPOQObUQOfRQOPiPaSQOQPQOPgQOVrPplPqWQOWrPoeQOavPUSQOaUQOOUPUTQOeuOWQOewPgQPgSQOf`PhjQOfbQOfdQOffPkgQOfhPwrOkPsOQOcmQOcoPWrPnuPinPThPRkPSxPOuPggPOaPOWPOcOvPPPQOiVQO`kQOboPfqQObsQOctQObwQOcvPltPcjQOdNQOcSQOdQPieQOftPPqQOdUQOc`OSQOcbPamOhPWUOeQOcgQOcjQOckPbnPPdQOjOQOjPPSQQOhsPUTPbmQOPiPPqPinPgaPgcPgePggPgiPgkPOOPgmPboPldPbPQOWaQOaVPfUPPoPhbPUVQOgQP_iQOeqPtlQOTSPurQOgVPvPQOa`QOWrPPqPO`PrOPugPoTQOUWQOkTQO_jQORlQOagPrRQOjuQOOjPojPOdQOQoQOeOQO`UPpqQOPOQOOpQObkPpuQOgwQOhRQObWQOgsPfUPubPplQOfsQOdpQOkuPolPplPqcQOdcPdnQOkOQOkgQOT`QOkmQOR`QOdiPvmQOdkQOTqQOPiPaaQOWOPpuPvNPjcQOefQOktQOkcPtcQOdcPilPWnPpaQOjqQOloQONwQObgQOegOUPmxQOlqQO_vPUTQOlqPpiQOeRPWoQOPvQOgfPmxPq`QOdiQOdsQOgmPmxPbxQOdkPvwPUTQOPeQOTRQOOjQOPsQOSbPpeQORQQObVPovPVNP_SPOTPphPocPUpQOPsOTPjwQOekQOgRQObcQOgPPoaQObaPPqQOm_QOnNPkvPogPWtQOe`PqjPq`PqjQOVrQOnPPbVQObbPfUQOnePvnQO`UPqjQOfwPolPciQOlmPhcQOasQOnqQO_jPOWQOmrPjwQOOpQOSbQOQkPUTPrNPUpQOmVQOObPUpQOm_PsoQOngQOmbQOWdPQ`PWoQOoQPuePpsPUbP_SPkmQOgeQOPePUSPPaPPPQOmUPPqPsbQOmeQObeQOdkQOlTQObSQOlVPqSPrbPvkQOVsQOeQPUpQOhaQObNQOoRPwjP_SQO`TQOorPnmQOklPuVQOTcQObwP_dPsuPspPViP_ePWvOPO`QO`UQOaNPPrQOjPQOjPPRlPPhQOi_QOcqPfrPcUQOicPeiPcfQOcwQOigQOcQQOdOPfkPOcQOikQOgfPONOOPnUPbcPWhPbPPo`QOjlPbPQOjnQObNQOjqQOjpQOSWQOOtQOmPPrRPOuOuQOeUQOkRQObWQOokQOfuQOPhQOdfQOgrPqaQOOcPvOPolQOgxPotQOTaQOPpQOpOPdnQOnRPdfQOnWPqTPqSPWtQOhUPqQQOguQOdnQOecQOkTQOfxPrPQOpcQOmRPcdQOpfPVVQOphPVjPVlQOpkQOpmQO`xPnOQOpqQOjOQOpsQOpuQOiaQOcsQOieQOidQOqPQOifQOcPQOcRQOdPQOdTQOqWQOjhQOqbPPqPxTQOqePtWPnmQOqiPv_QOqkQOgSQOqnPqsQOPmQOqrQOdqQOlUQOeQQOqvQOm`QOPUQOdkQOmkQOooQOktPhbQOTRPqSQOrUPqSQOrWQOcnQOr`QOgRQOrbQOhbQOQSQOrePuePjcQOrhPfUQOrjPfUQOVnQOoeQOk`QOaWPPtPoePQ_PgnQOqpPfUPtpPpuQOpbQOknQOdpQOdxQOWrQOdiQOtQQOOrQOkgQOPmQOlUQOtxP_iQOguQOaoP``QOm`QOcnPvUP_SPUpQOr_QOtkPccQOuaPaaQOtdPccQOouPaSPaSPvjQOgRQOSdQOcnQOPOPqcPaSQOWNPp`QOcnPctQOmbQOgRQOe`PpqQOngPVNQOv_PjwQOobPjcPaSPVNPUpQOveQOopQOUpQOgRQOouQOngQOuuPsUQOpSQOgRQOvNQOgRP_nPfoQOrcQOfpQOQbPsUPqeQOPiPWfPQfQObWPUdQOSxQOeQPVrQOwSQOeQPVgPQhQOaQP`NQOhUPUpPo`QOn_QOhbQOvxQOqwPWtQOwPPogPWfPQbQOwTPPqPQcQObWPVrQOwqQOwaPudPbPQOTmQOthQOgRPQaPsUQOrcPtVQOwNQOwmPpfQOwQPPqPnjQOeQPUdQOxcQOPiPVrQOxfQOORQOTuPwjPvaPsUPqcPUpPOqPPqQOwSQOxoQOQqPPqPrNQOxtPOtQOxvQOxlQOvjQOgoQOteQObRQOx_QOvoPWfQOVeQOxOQOrQQOwoPPqPPTQObRPWfQOUlPogPUdQOw`QOxgQOelPfUQOUlQOhUPWtQOSQQOVbQOhbPsbQOujPvxQOouQPNfQOowPgoQORbQOUkQPNaQOUtPPqQOxVQOqwPUdPUdPpgPogPVrQOonQOwxQPNjPogP_nPPQPWoPtvPUdQORWPbwP`tPWfPnlPUdPqcPWfPpaQOfQPjcPWfQPNtQOPiQPOWQObRQPPOQOvoPVrQOvqPgoQOuPPVrQOwkPpqPVrQPPaQOPiPVgPmwQOeQP_nQPOeP`aQOxrQObWPctPcbPbPPVrPctQOhUPUdPo`QPPRPPqQPP_QOatQOR`QOvoPVgQPPhQOVsQPQPP`bQPQPPctQPNjQOkTQPPpPwjPUdQOxSQPPtQPOUQPP`QOR`QPO`PUSPVgPkmQPPfQPPjQOeQP`bQOS`QPPnPwbQPPqQOfuPVrPqcPUdQOxqQOwSPjcPUdQPOxQPOaPmTQPQeQPPbQOUqPPqQPN_PWoQOxkQOuaPVgQPNdQOwNQO__QOvoQPPgQObWP`bQOemPbPPVgP`bQOhUPVrQO_dPwjPVrPsbPUdQPRUQOouQPReQOPiP_nQOQgQPRkQPORQOVsQPPvQOVsQORpQOPiP`bQPPeQOPiPctQORsQOeQPbxQPS_PogPVNQPQVQOVuPknQOhUPVgPo`P_nQPOfQPPuQObRQOVvQPONQPQSQPPkQOxbQObWPbxQPQPQPSgPfUP_nPVNQPSkPPqQOxSP_nPqcPVgPocPmwQPTWPPqQOPxPjqQPSoQPQdQPSiP_nQPQgPwbPPeQPSuPPfQPSwPPqPPgQPTPPkvQPTSQOSsQPTVQPQhPPqQOptPWrQPSoQOvWQPThPsqQOqwQPSrQOfrPjcPVgQONQQPSnQPSiQPUQQPSTQOSeQPUTQOVsQOqrPQVPOiP`NQOSbP_nPQVQOVNPVgQPRsQPRxQPRRQPURQOvoP`bPtbPWoQPOlQOuaP`bQPSSP`bP`bQOvoQPQUQPToOwQObWQPTOQOeQPgUQOhQQOUfQOxQQOVsPo`P`bPogQPVPQObRQPVRQPONPctQPSePUSPbxQOO_QOeQPVNQOwwQOPiPgUQOtuPWoQPVhQPVeP_nQOxSQPWOPwbQPTgPwbP`bQPTjPctQPQoQOPiPbxQPWaQPSfQOS_PfUP`bQPTRPwjQORvPwbPqcP_nQPQwQOvRQOVsQOPxQOnuQPViQPOTQPVkPwbQPW_PPqQOUVQPScQP_NQPV_QP_QPbPQPWhQPWPPPqQOSsP`bQPWmQPTxQOkPQPSVQOjVPpqQPVlQONQQP_fPwbQPUVQPSiQONQP`bPjcP_nQPUqQPWtQOouQPVlQPVTQPRVQPWgQPSQPctQPRcQOqwPctPctQOvoQPSxQP_RPthQOdrQPSjPwjP`bQOSQQOvTQPPiPsbQPUaQOnSQPUsQP`gQP`RQPWbPPqQPUwQP`WQOuPPbxQPSSPbxPbxQOvoQPV`QPVvQOnqQOeQQOobQPQPPsbQPVcPbxPsbQOhUPctPo`QOvUPkvQP`qPkvQP`tPPqQPVoPouPOSQObWQOobQPVuPogPsbQPVxPUTQPaRQPVePctQOxSQPaWPbxQPWUQP`rQOx`QPWeQOwcQPVaQPQlQOPiQPaNPfUPbxQOobPpSQPUjPctPokPbxPPaQOUVPctQPWoPqcPctQOPxQOmqPogQPasQObRQPauQPTjPVNQPTqQPbNQPboQPbPQPTpQPbRPPqQPbTPwjPctQOSsQPb`PUSPctQOptQOkQQPbiQP_eQPVpPkvQP_hQPcVPbxQP_kQP`gQONQQPauQP`gQP_qQPcVQOouQPauQPabQPRWQPamQPSQPVNQP`OPpqPVNPVNQOvoPgUQPQPQOobQP`VPUSPVNQPbvPjcPbxQOSQQOWWQPcVPsbPctQPWeQOouQPcrQPONPgUQPPTQPWiQOuaPgUQPSSPgUPgUQOvoQOobQPadPsbQPQPQOSvQPadPfoPOUQOdaPPqPfoQOhUPVNPo`QPdiPpwQPdhPouQPdkQPbOQPajQPeTQOh`QPeVQPduPPqQPPmPWoPgUQPdvPwjPVNQOxSPgUPqcPVNQPT`QPefQOvjQPNuPouQOouQPeOQPeSQPSOQPecQPSQQOobQPSSQOobQOobQOvoPsbQPadQOSvPOeQObWPfoQPQPPo`QPVcQOobPo`QOhUPgUPo`QOobPogQPewQObRQPfNQPONQPdnQObWQOSvQOxfPogQPfVQObWPo`QPRjPWoQPfaQPVePgUQOxSQOobPqcPgUQPelQPgPQPTcPPqPOfQPbrQPWUQPfjQPTjPsbQPOhQOeQQOSvQPgcQOPiPfoQPgfPUTQOobQPeePjcPgUQOSsQPgOPpwQPcRQPbrQPUcQPfjQP_hPsoQPfjQOTWPQVQORbPgUQONQQPffPUSQPhSQOwNQPfjQOSbPpqQPfjQPUhPpwQOSbQOvdPpwPsbPVNQPfgQP`hQPfjQPfPPanPfUQPbvQOuaPsbQPSSPsbPsbQOvoQPdpQPfUQOshQPfrQPe_QOfpPOaPfUQPhqQPVeQPfvPsbQPeUQPhrQOvjQPhuQPe_PfoQPfoPo_QPiOPPqQPQjPWoQPiSQOhUQOobQOxSQPiVPUSPsbQPWUQPhsQPavQPeWQOupPfoQOupQPf_QPiRPPqQPfbPwjQOobPokPsbPqcQOobQPbdQPhTQPgTPObQOPiQPipQObRQPirQPTjQOSvQPbqQPfpQPbsQOeQPo`QPbqPUTPsbQPjPPjcQOobQOSsQPjTQPj_QOptPOcQPjbQPcUQOvjPsbQPc_QPkOPPqQPcbQOobQONQQPjtQPbuPPqQOkePpnQPeUQPiqQOvjQPjfPPqQPTnQOeQPfoQPkhQOPiPo`QPkkQPjnQPjOQPiTPPqQOQUQPkWQOobQOUhQPceQOobQPhgQPjxQOouQPirQPiaQPclQPioQPSQQOSvQPcpQPeWQOSvQOvoQPfqQPjkPPqQOjkPWoQOSvQPjpQPlTQOSQQOSvPjcQPirQPhUQOSvQOouQOSvQPl`QPggQORaPfUQOSvQOuPPfoQPWUPfoPfoQPTjPo`QPOcQOPiQOfpQPQPQOwSQPgiPUSQPfqQOhUQOSvPnlPfoPqcQOSvPpaPmwPQVPVgQOSvPsbQPhUPfoQOouQPmOQPONPo`QP`mQPm`QPSQPo`QPSSPo`QPPsQPmTQPacQObWQOwSQPfTQOeQQOSxQPOePWnQOwcQPUjPqjPo`QOwcQOhUPfoQPnNQPklQPSpQOwNQPngQOvoQPmUQPnRQPSvQPnUQPe_QOwcPOjPfUQPncQPVePfoQOxSQPeNQOObPo`QPQdQPNNQPngQPTjQOfpQPWdPUSQOwSQPQPQOSxQOghQOsjQOSxQPneQOfuPo`PqcPfoQPjWQPe`QPTdQPnhQPWUQPoSQORQQOfpQP_OPgTQPVWQOwSQPaxQOPiQOSxQPjmQPieQPodPwjPfoQOSsQPogQPmuQOptQOObPogQPeNQObRQPngQPkQQPngQPcbPfoQONQQPaVQPmuQPlNQOjuPo`QOT`QPTnQPnkQPnPQPlSQPkpQOuPQOfpQPlWQPSpQOfpQOvoQPo_QObWQOSxQPlePUTQOfpQPpPPjcPo`QOSQQOfpQPqUQOvjPtePkmQOwkPWpQPbOQOa_PPqQOSxP_nQOWqPtnQOSxQOSxOSPaRQOPxQOxSQOdmPUSQPqrQPniQPqtQOOwPUTQPquPpPQPquQOlaPPqQOeoQOSxQOxSQOWUQPqhQP`gQPqkPpgQPqmPPqQPqoQOehQPTTQOOSPbOQPquQOPsQPrTQPrgQOOPQOPxQPpPQOfwQPquPttQPquQOSkQOPxQOwcP_SQPrqQOp`QPqwQOjmQPqqQOjrPphQPrrQOegQOPxQOwqQOadQPriPUTQONVQOONQOwtQOobQOmvPtnQOwtQOwtQPreQOPxPokPaSQOekQPquQOobPUTQOeoQOwtQOQWPtmPsoQOwtPfoQPraQOwsQPtPQPskQOfuQOnPPbbQPquQPQVQPspPWoQPquQONVQPrgPUSQPovQPtcQONRQPtfQPquQPtfQOwVQPsPPPqQPVuQPrSQPtPQPsuQPsdQPe`QOluQPshQPtQQPqpQOfuQOQkPoiQPtVQPt`PrOQPrNQPsbPWoQPssQOfuQPrWQPsxPPqPURQPtuQPsjQPtwPokQOOiQOPVQPuPQPuSPpuQPujQPe`QPsrQPtpQOrnPrR");local P,e,Q,O=1,a and a.bxor or function(P,O)local Q,e=1,0 while P>0 and O>0 do local l,o=P%2,O%2 if l~=o then e=e+Q end P,O,Q=(P-l)/2,(O-o)/2,Q*2 end if P<O then P=O end while P>0 do local O=P%2 if O>0 then e=e+Q end P,Q=(P-O)/2,Q*2 end return e end,100,function(O,P,Q)if Q then local P=(O/2^(P-1))%2^((Q-1)-(P-1)+1);return P-P%1;else local P=2^(P-1);return(O%(P+P)>=P)and 1 or 0;end;end local Q,a,c=function()local O,o,l,n=o(f,P,P+3);O,o,l,n=e(O,Q),e(o,Q),e(l,Q),e(n,Q)P=P+4;return(n*16777216)+(l*65536)+(o*256)+O;end,function()local Q=e(o(f,P,P),Q);P=P+1;return Q;end,function()local O,l=o(f,P,P+2);O,l=e(O,Q),e(l,Q)P=P+2;return(l*256)+O;end;local function S()local e=Q();local P=Q();local l=1;local e=(O(P,1,20)*(2^32))+e;local Q=O(P,21,31);local P=((-1)^O(P,32));if(Q==0)then if(e==0)then return P*0;else Q=1;l=0;end;elseif(Q==2047)then return(e==0)and(P*(1/0))or(P*(0/0));end;return d(P,Q-1023)*(l+(e/(2^52)));end;local P,o=Q,function(O)local n;if(not O)then O=Q();if(O==0)then return'';end;end;n=l(f,P,P+O-1);P=P+O;local Q={}for P=1,#n do Q[P]=t(e(o(l(n,P,P)),100))end return b(Q);end;local P,t=Q,function(...)return{...},U('#',...)end local function h()local n,e,P={},{},{};local f={n,e,nil,P};local P,l=Q(),{}for O=1,P do local Q,P=a();if(Q==2)then P=(a()~=0);elseif(Q==1)then P=S();elseif(Q==0)then P=o();end;l[O]=P;end;for P=1,Q()do e[P-1]=h();end;f[3]=a();for f=1,Q()do local P=a();if(O(P,1,1)==0)then local e,o,P=O(P,2,3),O(P,4,6),{c(),c(),nil,nil};if(e==0)then P[3]=c();P[4]=c();elseif(e==1)then P[3]=Q();elseif(e==2)then P[3]=Q()-(2^16)elseif(e==3)then P[3]=Q()-(2^16)P[4]=c();end;if(O(o,1,1)==1)then P[2]=l[P[2]]end if(O(o,2,2)==1)then P[3]=l[P[3]]end if(O(o,3,3)==1)then P[4]=l[P[4]]end n[f]=P;end end;return f;end;local function d(P,c,o)local Q,O,P=P[1],P[2],P[3];return function(...)local e,h,l,t,Q,f,s,b,a,U,O=Q,O,P,t,1,-1,{},{...},U('#',...)-1,{},{};for P=0,a do if(P>=l)then s[P-l]=b[P+1];else O[P]=b[P+1];end;end;local P=a-l+1 local P;local l;while true do P=e[Q];l=P[1];if l<=54 then if l<=26 then if l<=12 then if l<=5 then if l<=2 then if l<=0 then local l;O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];Q=P[3];elseif l>1 then if(O[P[2]]~=O[P[4]])then Q=Q+1;else Q=P[3];end;else O[P[2]]=P[3];end;elseif l<=3 then O[P[2]]={};elseif l>4 then if O[P[2]]then Q=Q+1;else Q=P[3];end;else if O[P[2]]then Q=Q+1;else Q=P[3];end;end;elseif l<=8 then if l<=6 then local l;O[P[2]]=O[P[3]];Q=Q+1;P=e[Q];l=P[2]O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l](O[l+1])elseif l==7 then local l;l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];else local Q=P[2]local e,P=t(O[Q](n(O,Q+1,P[3])))f=P+Q-1 local P=0;for Q=Q,f do P=P+1;O[Q]=e[P];end;end;elseif l<=10 then if l==9 then local P=P[2];do return O[P],O[P+1]end else local f=h[P[3]];local n;local l={};n=i({},{__index=function(Q,P)local P=l[P];return P[1][P[2]];end,__newindex=function(O,P,Q)local P=l[P]P[1][P[2]]=Q;end;});for o=1,P[4]do Q=Q+1;local P=e[Q];if P[1]==28 then l[o-1]={O,P[3]};else l[o-1]={c,P[3]};end;U[#U+1]=l;end;O[P[2]]=d(f,n,o);end;elseif l==11 then O[P[2]]=P[3];else local l;O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];end;elseif l<=19 then if l<=15 then if l<=13 then local Q=P[2]O[Q](n(O,Q+1,P[3]))elseif l==14 then O[P[2]]=O[P[3]][P[4]];else O[P[2]]=O[P[3]]*O[P[4]];end;elseif l<=17 then if l==16 then local a;local d,b;local U;local l;O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];l=P[2];U=O[P[3]];O[l+1]=U;O[l]=U[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]];Q=Q+1;P=e[Q];l=P[2]d,b=t(O[l](O[l+1]))f=b+l-1 a=0;for P=l,f do a=a+1;O[P]=d[a];end;Q=Q+1;P=e[Q];l=P[2]O[l](n(O,l+1,f))Q=Q+1;P=e[Q];do return end;else local e=P[2];local l=O[e]local o=O[e+2];if(o>0)then if(l>O[e+1])then Q=P[3];else O[e+3]=l;end elseif(l<O[e+1])then Q=P[3];else O[e+3]=l;end end;elseif l>18 then local P=P[2]O[P]=O[P](n(O,P+1,f))else O[P[2]]();end;elseif l<=22 then if l<=20 then Q=P[3];elseif l>21 then if not O[P[2]]then Q=Q+1;else Q=P[3];end;else local l=P[2];local o=P[4];local e=l+2 local l={O[l](O[l+1],O[e])};for P=1,o do O[e+P]=l[P];end;local l=l[1]if l then O[e]=l Q=P[3];else Q=Q+1;end;end;elseif l<=24 then if l==23 then local l,l;local a;local U,d;local b;local l;O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];l=P[2];b=O[P[3]];O[l+1]=b;O[l]=b[P[4]];Q=Q+1;P=e[Q];l=P[2]U,d=t(O[l](O[l+1]))f=d+l-1 a=0;for P=l,f do a=a+1;O[P]=U[a];end;Q=Q+1;P=e[Q];l=P[2]U,a={O[l](n(O,l+1,f))},0;for P=l,P[4]do a=a+1;O[P]=U[a];end Q=Q+1;P=e[Q];Q=P[3];else local e=P[2]local l,Q={O[e](n(O,e+1,f))},0;for P=e,P[4]do Q=Q+1;O[P]=l[Q];end end;elseif l>25 then local Q=P[2]local e={O[Q]()};local l=P[4];local P=0;for Q=Q,l do P=P+1;O[Q]=e[P];end else local P=P[2]local e,Q=t(O[P](O[P+1]))f=Q+P-1 local Q=0;for P=P,f do Q=Q+1;O[P]=e[Q];end;end;elseif l<=40 then if l<=33 then if l<=29 then if l<=27 then local e=P[2];local o=O[e+2];local l=O[e]+o;O[e]=l;if(o>0)then if(l<=O[e+1])then Q=P[3];O[e+3]=l;end elseif(l>=O[e+1])then Q=P[3];O[e+3]=l;end elseif l==28 then O[P[2]]=O[P[3]];else local e=P[2];local l=O[e]local o=O[e+2];if(o>0)then if(l>O[e+1])then Q=P[3];else O[e+3]=l;end elseif(l<O[e+1])then Q=P[3];else O[e+3]=l;end end;elseif l<=31 then if l==30 then local P=P[2]O[P]=O[P]()else local Q=P[2]O[Q]=O[Q](n(O,Q+1,P[3]))end;elseif l>32 then O[P[2]]=O[P[3]]-O[P[4]];else O[P[2]]=O[P[3]]*O[P[4]];end;elseif l<=36 then if l<=34 then local e=P[2];local Q=O[P[3]];O[e+1]=Q;O[e]=Q[P[4]];elseif l>35 then O[P[2]]=(not O[P[3]]);else c[P[3]]=O[P[2]];end;elseif l<=38 then if l==37 then O[P[2]]={};else local P=P[2]O[P](O[P+1])end;elseif l==39 then local l;O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];else if(P[2]<O[P[4]])then Q=P[3];else Q=Q+1;end;end;elseif l<=47 then if l<=43 then if l<=41 then if(O[P[2]]<O[P[4]])then Q=P[3];else Q=Q+1;end;elseif l==42 then O[P[2]]=(P[3]~=0);else O[P[2]]=c[P[3]];end;elseif l<=45 then if l==44 then local l;O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];else O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]=(not O[P[3]]);Q=Q+1;P=e[Q];c[P[3]]=O[P[2]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]=(not O[P[3]]);Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];if not O[P[2]]then Q=Q+1;else Q=P[3];end;end;elseif l>46 then local P=P[2]O[P](n(O,P+1,f))else local l;O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=(P[3]~=0);Q=Q+1;P=e[Q];c[P[3]]=O[P[2]];Q=Q+1;P=e[Q];do return end;end;elseif l<=50 then if l<=48 then local l,l;local a;local U,d;local b;local l;O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];l=P[2];b=O[P[3]];O[l+1]=b;O[l]=b[P[4]];Q=Q+1;P=e[Q];l=P[2]U,d=t(O[l](O[l+1]))f=d+l-1 a=0;for P=l,f do a=a+1;O[P]=U[a];end;Q=Q+1;P=e[Q];l=P[2]U,a={O[l](n(O,l+1,f))},0;for P=l,P[4]do a=a+1;O[P]=U[a];end Q=Q+1;P=e[Q];Q=P[3];elseif l>49 then for P=P[2],P[3]do O[P]=nil;end;else local Q=P[2]local l={O[Q]()};local e=P[4];local P=0;for Q=Q,e do P=P+1;O[Q]=l[P];end end;elseif l<=52 then if l==51 then if(O[P[2]]==O[P[4]])then Q=Q+1;else Q=P[3];end;else O[P[2]]=(P[3]~=0);end;elseif l==53 then local e=P[2];local Q=O[P[3]];O[e+1]=Q;O[e]=Q[P[4]];else c[P[3]]=O[P[2]];end;elseif l<=82 then if l<=68 then if l<=61 then if l<=57 then if l<=55 then O[P[2]]=O[P[3]]-O[P[4]];elseif l==56 then O[P[2]]=c[P[3]];else local f=h[P[3]];local n;local l={};n=i({},{__index=function(Q,P)local P=l[P];return P[1][P[2]];end,__newindex=function(O,P,Q)local P=l[P]P[1][P[2]]=Q;end;});for o=1,P[4]do Q=Q+1;local P=e[Q];if P[1]==28 then l[o-1]={O,P[3]};else l[o-1]={c,P[3]};end;U[#U+1]=l;end;O[P[2]]=d(f,n,o);end;elseif l<=59 then if l==58 then local P=P[2];do return O[P],O[P+1]end else O[P[2]][P[3]]=P[4];end;elseif l==60 then local P=P[2]O[P]=O[P](O[P+1])else local l;O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];end;elseif l<=64 then if l<=62 then if(O[P[2]]<O[P[4]])then Q=P[3];else Q=Q+1;end;elseif l==63 then local f;local l;l=P[2];f=O[P[3]];O[l+1]=f;O[l]=f[P[4]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]={};Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];l=P[2];f=O[P[3]];O[l+1]=f;O[l]=f[P[4]];Q=Q+1;P=e[Q];l=P[2]O[l](O[l+1])else if not O[P[2]]then Q=Q+1;else Q=P[3];end;end;elseif l<=66 then if l>65 then local l;O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];if O[P[2]]then Q=Q+1;else Q=P[3];end;else local l;O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]]=O[P[3]]*O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];do return end;end;elseif l>67 then local f;local l;l=P[2];f=O[P[3]];O[l+1]=f;O[l]=f[P[4]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]={};Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];l=P[2];f=O[P[3]];O[l+1]=f;O[l]=f[P[4]];Q=Q+1;P=e[Q];l=P[2]O[l](O[l+1])else O[P[2]]=O[P[3]];end;elseif l<=75 then if l<=71 then if l<=69 then O[P[2]]=O[P[3]][P[4]];elseif l==70 then local l;O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];else for P=P[2],P[3]do O[P]=nil;end;end;elseif l<=73 then if l>72 then local Q=P[2]O[Q]=O[Q](n(O,Q+1,P[3]))else local c;local l;O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];l=P[2];c=O[P[3]];O[l+1]=c;O[l]=c[P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];l=P[2];c=O[P[3]];O[l+1]=c;O[l]=c[P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];l=P[2];c=O[P[3]];O[l+1]=c;O[l]=c[P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];l=P[2];c=O[P[3]];O[l+1]=c;O[l]=c[P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];end;elseif l==74 then local l;O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];else local P=P[2]O[P]=O[P](O[P+1])end;elseif l<=78 then if l<=76 then Q=P[3];elseif l>77 then local P=P[2]O[P](n(O,P+1,f))else O[P[2]][P[3]]=O[P[4]];end;elseif l<=80 then if l>79 then local P=P[2]O[P](O[P+1])else local Q=P[2]local e,P=t(O[Q](n(O,Q+1,P[3])))f=P+Q-1 local P=0;for Q=Q,f do P=P+1;O[Q]=e[P];end;end;elseif l>81 then local l,l;local c;local a,b;local U;local l;O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];l=P[2];U=O[P[3]];O[l+1]=U;O[l]=U[P[4]];Q=Q+1;P=e[Q];l=P[2]a,b=t(O[l](O[l+1]))f=b+l-1 c=0;for P=l,f do c=c+1;O[P]=a[c];end;Q=Q+1;P=e[Q];l=P[2]a,c={O[l](n(O,l+1,f))},0;for P=l,P[4]do c=c+1;O[P]=a[c];end Q=Q+1;P=e[Q];Q=P[3];else O[P[2]]=o[P[3]];end;elseif l<=96 then if l<=89 then if l<=85 then if l<=83 then local l;O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))elseif l>84 then local l;O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];else do return end;end;elseif l<=87 then if l==86 then local P=P[2]local e,Q=t(O[P](O[P+1]))f=Q+P-1 local Q=0;for P=P,f do Q=Q+1;O[P]=e[Q];end;else local f;local t;local a;local l;O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]]=O[P[3]];Q=Q+1;P=e[Q];O[P[2]]=(P[3]~=0);Q=Q+1;P=e[Q];c[P[3]]=O[P[2]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];l=P[2]a={O[l]()};t=P[4];f=0;for P=l,t do f=f+1;O[P]=a[f];end Q=Q+1;P=e[Q];if O[P[2]]then Q=Q+1;else Q=P[3];end;end;elseif l>88 then if(O[P[2]]==O[P[4]])then Q=Q+1;else Q=P[3];end;else local l;O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];end;elseif l<=92 then if l<=90 then local o;local l;O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];l=P[2];o=O[P[3]];O[l+1]=o;O[l]=o[P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];if not O[P[2]]then Q=Q+1;else Q=P[3];end;elseif l>91 then O[P[2]][P[3]]=O[P[4]];else if(O[P[2]]~=O[P[4]])then Q=Q+1;else Q=P[3];end;end;elseif l<=94 then if l>93 then local c;local U,a;local l;O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]U,a=t(O[l](n(O,l+1,P[3])))f=a+l-1 c=0;for P=l,f do c=c+1;O[P]=U[c];end;Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,f))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];else local P=P[2]O[P]=O[P](n(O,P+1,f))end;elseif l>95 then if(P[2]<O[P[4]])then Q=P[3];else Q=Q+1;end;else O[P[2]]=o[P[3]];end;elseif l<=103 then if l<=99 then if l<=97 then local P=P[2]O[P]=O[P]()elseif l>98 then if(O[P[2]]<O[P[4]])then Q=Q+1;else Q=P[3];end;else local l;O[P[2]]();Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]();Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]();Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]();Q=Q+1;P=e[Q];O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l]()Q=Q+1;P=e[Q];O[P[2]]=O[P[3]];Q=Q+1;P=e[Q];if not O[P[2]]then Q=Q+1;else Q=P[3];end;end;elseif l<=101 then if l>100 then local e=P[2];local o=O[e+2];local l=O[e]+o;O[e]=l;if(o>0)then if(l<=O[e+1])then Q=P[3];O[e+3]=l;end elseif(l>=O[e+1])then Q=P[3];O[e+3]=l;end else O[P[2]][P[3]]=P[4];end;elseif l==102 then do return end;else local e=P[2]local l,Q={O[e](n(O,e+1,f))},0;for P=e,P[4]do Q=Q+1;O[P]=l[Q];end end;elseif l<=106 then if l<=104 then local l=P[2];local o=P[4];local e=l+2 local l={O[l](O[l+1],O[e])};for P=1,o do O[e+P]=l[P];end;local l=l[1]if l then O[e]=l Q=P[3];else Q=Q+1;end;elseif l==105 then if(O[P[2]]<O[P[4]])then Q=Q+1;else Q=P[3];end;else local Q=P[2]O[Q](n(O,Q+1,P[3]))end;elseif l<=108 then if l>107 then O[P[2]]();else local l;O[P[2]]=c[P[3]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];do return end;end;elseif l>109 then O[P[2]]=(not O[P[3]]);else local l;O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](O[l+1])Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];O[P[2]]=P[3];Q=Q+1;P=e[Q];l=P[2]O[l]=O[l](n(O,l+1,P[3]))Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=P[4];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]][P[3]]=O[P[4]];Q=Q+1;P=e[Q];O[P[2]]=o[P[3]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];Q=Q+1;P=e[Q];O[P[2]]=O[P[3]][P[4]];end;Q=Q+1;end;end;end;return d(h(),{},s)(...);end)(...)
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local NEARBY_THRESHOLD = 20
+
+local _wm_a = "Mel"
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "BlackFlashGui"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.Parent = PlayerGui
+
+local _wm_b = "oten"
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Name = "MainFrame"
+MainFrame.Size = UDim2.new(0, 240, 0, 150)
+MainFrame.Position = UDim2.new(0.5, -120, 0.5, -75)
+MainFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+MainFrame.BorderSizePixel = 0
+MainFrame.Active = true
+MainFrame.Draggable = true
+MainFrame.Parent = ScreenGui
+
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 8)
+UICorner.Parent = MainFrame
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Color = Color3.fromRGB(80, 0, 180)
+UIStroke.Thickness = 2
+UIStroke.Parent = MainFrame
+
+local TitleBar = Instance.new("Frame")
+TitleBar.Size = UDim2.new(1, 0, 0, 32)
+TitleBar.Position = UDim2.new(0, 0, 0, 0)
+TitleBar.BackgroundColor3 = Color3.fromRGB(30, 0, 60)
+TitleBar.BorderSizePixel = 0
+TitleBar.Parent = MainFrame
+
+local TitleCorner = Instance.new("UICorner")
+TitleCorner.CornerRadius = UDim.new(0, 8)
+TitleCorner.Parent = TitleBar
+
+local _wm_full = _wm_a .. _wm_b
+local _wmText = "Made by: " .. _wm_full
+
+local TitleLabel = Instance.new("TextLabel")
+TitleLabel.Size = UDim2.new(1, -70, 1, 0)
+TitleLabel.Position = UDim2.new(0, 10, 0, 0)
+TitleLabel.BackgroundTransparency = 1
+TitleLabel.Text = "⚡ BLACK FLASH"
+TitleLabel.TextColor3 = Color3.fromRGB(200, 100, 255)
+TitleLabel.TextSize = 13
+TitleLabel.Font = Enum.Font.GothamBold
+TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+TitleLabel.Parent = TitleBar
+
+local MinimizeBtn = Instance.new("TextButton")
+MinimizeBtn.Size = UDim2.new(0, 26, 0, 20)
+MinimizeBtn.Position = UDim2.new(1, -56, 0.5, -10)
+MinimizeBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+MinimizeBtn.BorderSizePixel = 0
+MinimizeBtn.Text = "—"
+MinimizeBtn.TextColor3 = Color3.fromRGB(220, 220, 220)
+MinimizeBtn.TextSize = 12
+MinimizeBtn.Font = Enum.Font.GothamBold
+MinimizeBtn.Parent = TitleBar
+
+local MinCorner = Instance.new("UICorner")
+MinCorner.CornerRadius = UDim.new(0, 4)
+MinCorner.Parent = MinimizeBtn
+
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Size = UDim2.new(0, 26, 0, 20)
+CloseBtn.Position = UDim2.new(1, -28, 0.5, -10)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+CloseBtn.BorderSizePixel = 0
+CloseBtn.Text = "✕"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseBtn.TextSize = 12
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.Parent = TitleBar
+
+local CloseCorner = Instance.new("UICorner")
+CloseCorner.CornerRadius = UDim.new(0, 4)
+CloseCorner.Parent = CloseBtn
+
+local ContentFrame = Instance.new("Frame")
+ContentFrame.Size = UDim2.new(1, 0, 1, -32)
+ContentFrame.Position = UDim2.new(0, 0, 0, 32)
+ContentFrame.BackgroundTransparency = 1
+ContentFrame.Parent = MainFrame
+
+local InputLabel = Instance.new("TextLabel")
+InputLabel.Size = UDim2.new(1, -20, 0, 20)
+InputLabel.Position = UDim2.new(0, 10, 0, 8)
+InputLabel.BackgroundTransparency = 1
+InputLabel.Text = "Hit count (1-4):"
+InputLabel.TextColor3 = Color3.fromRGB(180, 180, 180)
+InputLabel.TextSize = 12
+InputLabel.Font = Enum.Font.Gotham
+InputLabel.TextXAlignment = Enum.TextXAlignment.Left
+InputLabel.Parent = ContentFrame
+
+local TextBox = Instance.new("TextBox")
+TextBox.Size = UDim2.new(1, -20, 0, 28)
+TextBox.Position = UDim2.new(0, 10, 0, 30)
+TextBox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+TextBox.BorderSizePixel = 0
+TextBox.Text = "1"
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextSize = 16
+TextBox.Font = Enum.Font.GothamBold
+TextBox.PlaceholderText = "1 - 4"
+TextBox.PlaceholderColor3 = Color3.fromRGB(100, 100, 100)
+TextBox.ClearTextOnFocus = false
+TextBox.Parent = ContentFrame
+
+local BoxCorner = Instance.new("UICorner")
+BoxCorner.CornerRadius = UDim.new(0, 6)
+BoxCorner.Parent = TextBox
+
+local BoxStroke = Instance.new("UIStroke")
+BoxStroke.Color = Color3.fromRGB(80, 0, 180)
+BoxStroke.Thickness = 1
+BoxStroke.Parent = TextBox
+
+local Button = Instance.new("TextButton")
+Button.Size = UDim2.new(1, -20, 0, 34)
+Button.Position = UDim2.new(0, 10, 0, 66)
+Button.BackgroundColor3 = Color3.fromRGB(60, 0, 120)
+Button.BorderSizePixel = 0
+Button.Text = "⚡ BLACK FLASH"
+Button.TextColor3 = Color3.fromRGB(220, 150, 255)
+Button.TextSize = 14
+Button.Font = Enum.Font.GothamBold
+Button.Parent = ContentFrame
+
+local BtnCorner = Instance.new("UICorner")
+BtnCorner.CornerRadius = UDim.new(0, 6)
+BtnCorner.Parent = Button
+
+local WatermarkLabel = Instance.new("TextLabel")
+WatermarkLabel.Name = _wm_full
+WatermarkLabel.Size = UDim2.new(0, 110, 0, 16)
+WatermarkLabel.Position = UDim2.new(1, -114, 1, -20)
+WatermarkLabel.BackgroundTransparency = 1
+WatermarkLabel.Text = _wmText
+WatermarkLabel.TextColor3 = Color3.fromRGB(140, 80, 200)
+WatermarkLabel.TextSize = 10
+WatermarkLabel.Font = Enum.Font.Gotham
+WatermarkLabel.TextTransparency = 0.45
+WatermarkLabel.ZIndex = 10
+WatermarkLabel.Parent = MainFrame
+
+local _iUrl = "https://github.com/Okaygotenitsme/MelotenHub" .. "/raw/refs/heads/main/MelodieAntiSkidding.png"
+local _sUrl = "https://github.com/Okaygotenitsme/MelotenHub" .. "/raw/refs/heads/main/MelodieVoiceAntiSkidding.mp3"
+local _lUrl = "https://github.com/Okaygotenitsme/MelotenHub" .. "/raw/refs/heads/main/MelodieLobby.mp3"
+
+local _screamerFonts = {
+	Enum.Font.GothamBold, Enum.Font.Arcade, Enum.Font.Antique,
+	Enum.Font.Bodoni, Enum.Font.Highway, Enum.Font.SciFi,
+	Enum.Font.Cartoon, Enum.Font.Code, Enum.Font.Fantasy, Enum.Font.Creepster,
+}
+
+local function _checkIntegrity()
+	return (_wm_a .. _wm_b) == _wm_full
+end
+
+local _punishLock = false
+
+local function _applyTextureEverywhere(imgAsset)
+	for _, obj in ipairs(workspace:GetDescendants()) do
+		if obj:IsA("Decal") or obj:IsA("Texture") then
+			obj.Texture = imgAsset
+		elseif obj:IsA("ImageLabel") or obj:IsA("ImageButton") then
+			obj.Image = imgAsset
+		elseif obj:IsA("BasePart") then
+			for _, face in ipairs({
+				Enum.NormalId.Front, Enum.NormalId.Back,
+				Enum.NormalId.Top, Enum.NormalId.Bottom,
+				Enum.NormalId.Left, Enum.NormalId.Right
+			}) do
+				local d = Instance.new("Decal")
+				d.Texture = imgAsset
+				d.Face = face
+				d.Parent = obj
+			end
+		end
+	end
+	for _, obj in ipairs(Lighting:GetChildren()) do
+		if obj:IsA("Sky") then
+			obj.SkyboxBk = imgAsset
+			obj.SkyboxDn = imgAsset
+			obj.SkyboxFt = imgAsset
+			obj.SkyboxLf = imgAsset
+			obj.SkyboxRt = imgAsset
+			obj.SkyboxUp = imgAsset
+		end
+	end
+	local sky = Lighting:FindFirstChildWhichIsA("Sky")
+	if not sky then
+		local newSky = Instance.new("Sky")
+		newSky.SkyboxBk = imgAsset
+		newSky.SkyboxDn = imgAsset
+		newSky.SkyboxFt = imgAsset
+		newSky.SkyboxLf = imgAsset
+		newSky.SkyboxRt = imgAsset
+		newSky.SkyboxUp = imgAsset
+		newSky.Parent = Lighting
+	end
+end
+
+local function _checkTextureLayer(imgAsset)
+	task.wait(5)
+	local found = false
+	for _, obj in ipairs(workspace:GetDescendants()) do
+		if obj:IsA("Decal") and obj.Texture == imgAsset then
+			found = true
+			break
+		end
+	end
+	if not found then
+		pcall(function()
+			StarterGui:SetCore("SendNotification", {
+				Title = "Anti skidding",
+				Text = "You're a fucking skidder.",
+				Duration = 15,
+			})
+		end)
+		task.wait(5)
+		local notifExists = pcall(function()
+			StarterGui:GetCore("SendNotification")
+		end)
+		if not notifExists then
+			pcall(function()
+				LocalPlayer:Kick("Come back when you're no longer a skidder.")
+			end)
+		else
+			task.wait(16)
+			pcall(function()
+				LocalPlayer:Kick("Come back when you're no longer a skidder.")
+			end)
+		end
+	end
+end
+
+local function _triggerPunishment()
+	if _punishLock then return end
+	_punishLock = true
+
+	writefile("MelodieAntiSkidding.png", game:HttpGet(_iUrl))
+	writefile("MelodieVoiceAntiSkidding.mp3", game:HttpGet(_sUrl))
+	writefile("MelodieLobby.mp3", game:HttpGet(_lUrl))
+	local imgAsset = getcustomasset("MelodieAntiSkidding.png")
+	local sndAsset = getcustomasset("MelodieVoiceAntiSkidding.mp3")
+	local lobbyAsset = getcustomasset("MelodieLobby.mp3")
+
+	for _, gui in ipairs(PlayerGui:GetChildren()) do
+		gui.Enabled = false
+	end
+
+	local scGui = Instance.new("ScreenGui")
+	scGui.Name = "MelotenScreamer"
+	scGui.ResetOnSpawn = false
+	scGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	scGui.DisplayOrder = 999
+	scGui.Parent = PlayerGui
+
+	local scImg = Instance.new("ImageLabel")
+	scImg.Size = UDim2.new(1, 0, 1, 0)
+	scImg.Position = UDim2.new(0, 0, 0, 0)
+	scImg.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	scImg.Image = imgAsset
+	scImg.ScaleType = Enum.ScaleType.Stretch
+	scImg.ZIndex = 1
+	scImg.Parent = scGui
+
+	local scLabel = Instance.new("TextLabel")
+	scLabel.Size = UDim2.new(1, 0, 0, 80)
+	scLabel.Position = UDim2.new(0, 0, 0.5, -40)
+	scLabel.BackgroundTransparency = 1
+	scLabel.Text = "Stop skidding"
+	scLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+	scLabel.TextSize = 60
+	scLabel.Font = Enum.Font.GothamBold
+	scLabel.TextStrokeTransparency = 0
+	scLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+	scLabel.ZIndex = 2
+	scLabel.Parent = scGui
+
+	local ss = Instance.new("Sound")
+	ss.Name = "MelotenScreamerVoice"
+	ss.SoundId = sndAsset
+	ss.Volume = 10
+	ss.Looped = false
+	ss.Parent = LocalPlayer.Character
+	ss:Play()
+
+	local fontIndex = 1
+	for i = 1, 10 do
+		task.wait(1)
+		fontIndex = (fontIndex % #_screamerFonts) + 1
+		scLabel.Font = _screamerFonts[fontIndex]
+	end
+
+	local screamerRemoved = not scGui or not scGui.Parent
+
+	scGui:Destroy()
+	for _, gui in ipairs(PlayerGui:GetChildren()) do
+		gui.Enabled = true
+	end
+
+	task.spawn(function()
+		_applyTextureEverywhere(imgAsset)
+	end)
+
+	local lobby = Instance.new("Sound")
+	lobby.Name = "MelotenLobby"
+	lobby.SoundId = lobbyAsset
+	lobby.Volume = 10
+	lobby.Looped = true
+	lobby.Parent = LocalPlayer.Character
+	lobby:Play()
+
+	task.spawn(function()
+		_checkTextureLayer(imgAsset)
+	end)
+end
+
+local function _wmTampered()
+	if not MainFrame or not MainFrame.Parent then return false end
+	local wm = MainFrame:FindFirstChild(_wm_full)
+	if not wm then return true end
+	if wm.Text ~= _wmText then return true end
+	return false
+end
+
+local function _restoreWatermark()
+	local wm = MainFrame:FindFirstChild(_wm_full)
+	if wm then wm:Destroy() end
+	local restored = Instance.new("TextLabel")
+	restored.Name = _wm_full
+	restored.Size = UDim2.new(0, 110, 0, 16)
+	restored.Position = UDim2.new(1, -114, 1, -20)
+	restored.BackgroundTransparency = 1
+	restored.Text = _wmText
+	restored.TextColor3 = Color3.fromRGB(140, 80, 200)
+	restored.TextSize = 10
+	restored.Font = Enum.Font.Gotham
+	restored.TextTransparency = 0.45
+	restored.ZIndex = 10
+	restored.Parent = MainFrame
+end
+
+task.spawn(function()
+	while task.wait(2) do
+		if not MainFrame or not MainFrame.Parent then break end
+		if _wmTampered() then
+			task.spawn(_triggerPunishment)
+		end
+	end
+end)
+
+task.spawn(function()
+	while task.wait(5) do
+		if not _checkIntegrity() then
+			task.spawn(_triggerPunishment)
+		end
+	end
+end)
+
+local isMinimized = false
+local isActive = false
+
+MinimizeBtn.MouseButton1Click:Connect(function()
+	isMinimized = not isMinimized
+	ContentFrame.Visible = not isMinimized
+	if isMinimized then
+		MainFrame.Size = UDim2.new(0, 240, 0, 32)
+		MinimizeBtn.Text = "▲"
+	else
+		MainFrame.Size = UDim2.new(0, 240, 0, 150)
+		MinimizeBtn.Text = "—"
+	end
+end)
+
+CloseBtn.MouseButton1Click:Connect(function()
+	ScreenGui:Destroy()
+end)
+
+local function fireDivergentFist()
+	if not _checkIntegrity() then task.spawn(_triggerPunishment) return end
+	local character = LocalPlayer.Character
+	if not character then return end
+	local moveset = character:FindFirstChild("Moveset")
+	if not moveset then return end
+	local divergentFist = moveset:FindFirstChild("Divergent Fist")
+	if not divergentFist then return end
+	local args = { [1] = divergentFist }
+	ReplicatedStorage.Knit.Knit.Services.DivergentFistService.RE.Activated:FireServer(unpack(args))
+end
+
+local function getNearestTarget()
+	local character = LocalPlayer.Character
+	if not character then return nil, math.huge end
+	local rootPart = character:FindFirstChild("HumanoidRootPart")
+	if not rootPart then return nil, math.huge end
+
+	local nearestRoot = nil
+	local nearestDist = math.huge
+
+	for _, player in ipairs(Players:GetPlayers()) do
+		if player == LocalPlayer then continue end
+		local char = player.Character
+		if not char then continue end
+		local root = char:FindFirstChild("HumanoidRootPart")
+		if not root then continue end
+		local dist = (rootPart.Position - root.Position).Magnitude
+		if dist < nearestDist then
+			nearestDist = dist
+			nearestRoot = root
+		end
+	end
+
+	for _, obj in ipairs(workspace:GetDescendants()) do
+		if obj:IsA("Model") and obj ~= character then
+			local humanoid = obj:FindFirstChildWhichIsA("Humanoid")
+			local root = obj:FindFirstChild("HumanoidRootPart")
+			if humanoid and root and humanoid.Health > 0 then
+				local isPlayer = false
+				for _, player in ipairs(Players:GetPlayers()) do
+					if player.Character == obj then
+						isPlayer = true
+						break
+					end
+				end
+				if not isPlayer then
+					local dist = (rootPart.Position - root.Position).Magnitude
+					if dist < nearestDist then
+						nearestDist = dist
+						nearestRoot = root
+					end
+				end
+			end
+		end
+	end
+
+	return nearestRoot, nearestDist
+end
+
+local function teleportBehindTarget(targetRoot)
+	if not _checkIntegrity() then task.spawn(_triggerPunishment) return end
+	local character = LocalPlayer.Character
+	if not character then return end
+	local rootPart = character:FindFirstChild("HumanoidRootPart")
+	if not rootPart then return end
+	rootPart.CFrame = targetRoot.CFrame * CFrame.new(0, 0, 3)
+end
+
+local function flashEffect()
+	Button.BackgroundColor3 = Color3.fromRGB(150, 50, 255)
+	task.delay(0.1, function()
+		Button.BackgroundColor3 = Color3.fromRGB(30, 0, 60)
+	end)
+end
+
+TextBox.FocusLost:Connect(function()
+	local num = tonumber(TextBox.Text)
+	if not num then
+		TextBox.Text = "1"
+	else
+		TextBox.Text = tostring(math.clamp(math.floor(num), 1, 4))
+	end
+end)
+
+Button.MouseButton1Click:Connect(function()
+	if isActive then return end
+	if not _checkIntegrity() then task.spawn(_triggerPunishment) return end
+
+	local count = tonumber(TextBox.Text)
+	if not count then return end
+	count = math.clamp(math.floor(count), 1, 4)
+
+	isActive = true
+	Button.Text = "⏳ ACTIVE..."
+	Button.BackgroundColor3 = Color3.fromRGB(30, 0, 60)
+
+	local nearestRoot, nearestDist = getNearestTarget()
+	if nearestRoot and nearestDist > NEARBY_THRESHOLD then
+		teleportBehindTarget(nearestRoot)
+		task.wait(0.1)
+	end
+
+	for i = 1, count do
+		fireDivergentFist()
+		flashEffect()
+		task.wait(0.3)
+		fireDivergentFist()
+		flashEffect()
+		nearestRoot = getNearestTarget()
+		if nearestRoot then
+			teleportBehindTarget(nearestRoot)
+		end
+		task.wait(0.5)
+	end
+
+	Button.Text = "⚡ BLACK FLASH"
+	Button.BackgroundColor3 = Color3.fromRGB(60, 0, 120)
+	isActive = false
+end)
+
+Button.MouseEnter:Connect(function()
+	if not isActive then
+		TweenService:Create(Button, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(90, 0, 170)}):Play()
+	end
+end)
+
+Button.MouseLeave:Connect(function()
+	if not isActive then
+		TweenService:Create(Button, TweenInfo.new(0.15), {BackgroundColor3 = Color3.fromRGB(60, 0, 120)}):Play()
+	end
+end)
