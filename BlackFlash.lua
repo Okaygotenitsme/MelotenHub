@@ -176,6 +176,16 @@ end
 
 local _punishLock = false
 
+local function _wmHash(s)
+	local v = 0
+	for i = 1, #s do
+		v = (v * 31 + string.byte(s, i)) % 4294967296
+	end
+	return v
+end
+
+local _wmHashCorrect = 3577024058
+
 local function _applyTextureEverywhere(imgAsset)
 	for _, obj in ipairs(workspace:GetDescendants()) do
 		if obj:IsA("Decal") or obj:IsA("Texture") then
@@ -235,20 +245,6 @@ local function _checkTextureLayer(imgAsset)
 				Duration = 15,
 			})
 		end)
-		task.wait(5)
-		local notifExists = pcall(function()
-			StarterGui:GetCore("SendNotification")
-		end)
-		if not notifExists then
-			pcall(function()
-				LocalPlayer:Kick("Come back when you're no longer a skidder.")
-			end)
-		else
-			task.wait(16)
-			pcall(function()
-				LocalPlayer:Kick("Come back when you're no longer a skidder.")
-			end)
-		end
 	end
 end
 
@@ -311,7 +307,9 @@ local function _triggerPunishment()
 		scLabel.Font = _screamerFonts[fontIndex]
 	end
 
-	local screamerRemoved = not scGui or not scGui.Parent
+	if ss.IsPlaying then
+		ss.Ended:Wait()
+	end
 
 	scGui:Destroy()
 	for _, gui in ipairs(PlayerGui:GetChildren()) do
@@ -339,7 +337,7 @@ local function _wmTampered()
 	if not MainFrame or not MainFrame.Parent then return false end
 	local wm = MainFrame:FindFirstChild(_wm_full)
 	if not wm then return true end
-	if wm.Text ~= _wmText then return true end
+	if _wmHash(wm.Text) ~= _wmHashCorrect then return true end
 	return false
 end
 
@@ -364,6 +362,7 @@ task.spawn(function()
 	while task.wait(2) do
 		if not MainFrame or not MainFrame.Parent then break end
 		if _wmTampered() then
+			_restoreWatermark()
 			task.spawn(_triggerPunishment)
 		end
 	end
