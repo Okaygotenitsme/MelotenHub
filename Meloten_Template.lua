@@ -1,5 +1,5 @@
 if _G.__HUB_ALREADY_RUNNING then
-    pcall(function() _G.__HUB_GUI:Destroy() end)
+	pcall(function() _G.__HUB_GUI:Destroy() end)
 end
 _G.__HUB_ALREADY_RUNNING = true
 
@@ -56,16 +56,21 @@ local function loadImageFromUrl(url)
 	if type(url) == "number" then return "rbxassetid://" .. url end
 	if url:match("^rbxassetid://") then return url end
 	if url:match("^http") then
-		if not writefile or not makefolder or not getcustomasset or not isfolder then
+		if not (writefile and makefolder and getcustomasset and isfolder) then
 			return "rbxassetid://0"
 		end
-		if not isfolder("MelotenCache") then makefolder("MelotenCache") end
-		local fileName = "MelotenCache/img_" .. url:gsub("[^%w]", ""):sub(-24) .. ".png"
+		if not isfolder("MelotenCache") then
+			makefolder("MelotenCache")
+		end
+		local key = tostring(#url) .. "_" .. url:gsub("[^%w]", ""):sub(-32)
+		local fileName = "MelotenCache/" .. key .. ".png"
 		if isfile(fileName) then
 			return getcustomasset(fileName)
 		end
-		local ok, data = pcall(function() return game:HttpGet(url) end)
-		if ok then
+		local ok, data = pcall(function()
+			return game:HttpGet(url)
+		end)
+		if ok and data and #data > 0 then
 			writefile(fileName, data)
 			return getcustomasset(fileName)
 		end
@@ -139,16 +144,17 @@ function Hub:Notify(title, text, duration)
 	end)
 end
 
-local function makeDraggable(frame)
+local function makeDraggable(handle, target)
+	target = target or handle
 	local dragging, dragStart, startPos
-	frame.InputBegan:Connect(function(input)
+	handle.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 			dragging = true
 			dragStart = input.Position
-			startPos = frame.Position
+			startPos = target.Position
 		end
 	end)
-	frame.InputEnded:Connect(function(input)
+	handle.InputEnded:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 			dragging = false
 		end
@@ -156,7 +162,12 @@ local function makeDraggable(frame)
 	UserInputService.InputChanged:Connect(function(input)
 		if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
 			local delta = input.Position - dragStart
-			frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+			target.Position = UDim2.new(
+				startPos.X.Scale,
+				startPos.X.Offset + delta.X,
+				startPos.Y.Scale,
+				startPos.Y.Offset + delta.Y
+			)
 		end
 	end)
 end
@@ -302,8 +313,8 @@ function Hub:CreateWindow(config)
 	OpenStroke.Thickness = 1.5
 	OpenStroke.Parent = OpenButton
 
-	makeDraggable(TopBar)
-	makeDraggable(OpenButton)
+	makeDraggable(TopBar, MainFrame)
+	makeDraggable(OpenButton, OpenButton)
 
 	CloseBtn.MouseButton1Click:Connect(function()
 		TweenService:Create(MainFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, W, 0, 0), Position = UDim2.new(0.5, -W/2, 0.5, 0)}):Play()
