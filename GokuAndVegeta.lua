@@ -14,7 +14,7 @@
 --]]
 
 game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "Read me",
+    Title = "Melodie is my wife",
     Text = "Melodie is Meloten's wife",
     Duration = 10
 })
