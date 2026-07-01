@@ -210,6 +210,56 @@ function Hub:CreateWindow(config)
 	UIStroke.Color = BorderColor
 	UIStroke.Thickness = 1
 
+	local LoadingOverlay = Instance.new("Frame")
+	LoadingOverlay.Name = "LoadingOverlay"
+	LoadingOverlay.Size = UDim2.new(1, 0, 1, 0)
+	LoadingOverlay.BackgroundColor3 = DarkBg
+	LoadingOverlay.BorderSizePixel = 0
+	LoadingOverlay.ZIndex = 50
+	LoadingOverlay.Parent = MainFrame
+
+	local LoadingCorner = Instance.new("UICorner", LoadingOverlay)
+	LoadingCorner.CornerRadius = UDim.new(0, 6)
+
+	local LoadingLabel = Instance.new("TextLabel")
+	LoadingLabel.Text = "Loading UI..."
+	LoadingLabel.Size = UDim2.new(1, 0, 0, 20)
+	LoadingLabel.Position = UDim2.new(0, 0, 0.5, -20)
+	LoadingLabel.BackgroundTransparency = 1
+	LoadingLabel.TextColor3 = TextColor
+	LoadingLabel.Font = MonoFontBold
+	LoadingLabel.TextSize = 15
+	LoadingLabel.ZIndex = 51
+	LoadingLabel.Parent = LoadingOverlay
+
+	local LoadingBarBg = Instance.new("Frame")
+	LoadingBarBg.Size = UDim2.new(0, 160, 0, 3)
+	LoadingBarBg.Position = UDim2.new(0.5, -80, 0.5, 6)
+	LoadingBarBg.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
+	LoadingBarBg.BorderSizePixel = 0
+	LoadingBarBg.ZIndex = 51
+	LoadingBarBg.Parent = LoadingOverlay
+
+	local LoadingBarFill = Instance.new("Frame")
+	LoadingBarFill.Size = UDim2.new(0, 0, 1, 0)
+	LoadingBarFill.BackgroundColor3 = PurpleAccent
+	LoadingBarFill.BorderSizePixel = 0
+	LoadingBarFill.ZIndex = 52
+	LoadingBarFill.Parent = LoadingBarBg
+
+	TweenService:Create(LoadingBarFill, TweenInfo.new(0.6, Enum.EasingStyle.Quad), {Size = UDim2.new(1, 0, 1, 0)}):Play()
+
+	task.spawn(function()
+		task.wait(0.7)
+		local fadeTween = TweenService:Create(LoadingOverlay, TweenInfo.new(0.25), {BackgroundTransparency = 1})
+		TweenService:Create(LoadingLabel, TweenInfo.new(0.2), {TextTransparency = 1}):Play()
+		TweenService:Create(LoadingBarBg, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
+		TweenService:Create(LoadingBarFill, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
+		fadeTween:Play()
+		fadeTween.Completed:Wait()
+		LoadingOverlay:Destroy()
+	end)
+
 	ShadowImage.AnchorPoint = Vector2.new(0, 0)
 	ShadowImage.Position = UDim2.new(0, -30, 0, -30)
 	ShadowImage.Size = UDim2.new(0, W + 60, 0, H + 60)
@@ -425,7 +475,7 @@ function Hub:CreateWindow(config)
 		end)
 	end
 
-	function self:AddTab(name)
+	function self:AddTab(name, icon)
 		local Page = Instance.new("ScrollingFrame")
 		Page.Name = name
 		Page.Size = UDim2.new(1, -SidebarW - 20, 1, -55)
@@ -445,7 +495,7 @@ function Hub:CreateWindow(config)
 		Padding.PaddingBottom = UDim.new(0, 8)
 
 		local TabBtn = Instance.new("TextButton")
-		TabBtn.Text = "  " .. name
+		TabBtn.Text = icon and ("        " .. name) or ("  " .. name)
 		TabBtn.Size = UDim2.new(1, -10, 0, 32)
 		TabBtn.BackgroundColor3 = PurpleAccent
 		TabBtn.BackgroundTransparency = 1
@@ -455,16 +505,38 @@ function Hub:CreateWindow(config)
 		TabBtn.TextXAlignment = Enum.TextXAlignment.Left
 		TabBtn.Parent = TabContainer
 
+		local TabIcon
+		if icon then
+			TabIcon = Instance.new("ImageLabel")
+			TabIcon.Size = UDim2.new(0, 16, 0, 16)
+			TabIcon.Position = UDim2.new(0, 8, 0.5, -8)
+			TabIcon.BackgroundTransparency = 1
+			TabIcon.Image = loadImageFromUrl(icon)
+			TabIcon.ImageColor3 = TextColorDim
+			TabIcon.Parent = TabBtn
+		end
+
 		local win = self
 		TabBtn.MouseButton1Click:Connect(function()
 			if win._currentTab then
 				TweenService:Create(win._currentTab, TweenInfo.new(0.15), {BackgroundTransparency = 1, TextColor3 = TextColorDim}):Play()
+				local prevIcon = win._currentTab:FindFirstChildOfClass("ImageLabel")
+				if prevIcon then
+					TweenService:Create(prevIcon, TweenInfo.new(0.15), {ImageColor3 = TextColorDim}):Play()
+				end
 			end
-			if win._currentPage then win._currentPage.Visible = false end
+			if win._currentPage then
+				win._currentPage.Visible = false
+			end
 			win._currentTab = TabBtn
 			win._currentPage = Page
 			Page.Visible = true
+			Page.Position = UDim2.new(0, SidebarW + 4, 0, 47)
+			TweenService:Create(Page, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {Position = UDim2.new(0, SidebarW + 10, 0, 47)}):Play()
 			TweenService:Create(TabBtn, TweenInfo.new(0.15), {BackgroundTransparency = 0.85, TextColor3 = TextColor}):Play()
+			if TabIcon then
+				TweenService:Create(TabIcon, TweenInfo.new(0.15), {ImageColor3 = TextColor}):Play()
+			end
 			if SearchBox then
 				SearchBox.Text = ""
 				for _, entry in ipairs(win._searchables) do
@@ -479,6 +551,9 @@ function Hub:CreateWindow(config)
 			Page.Visible = true
 			TabBtn.BackgroundTransparency = 0.85
 			TabBtn.TextColor3 = TextColor
+			if TabIcon then
+				TabIcon.ImageColor3 = TextColor
+			end
 		end
 
 		local tab = {}
