@@ -180,23 +180,65 @@ function Hub:CreateWindow(config)
 	local W = config.Size and config.Size.X or 560
 	local H = config.Size and config.Size.Y or 400
 
+	local ShadowImage = Instance.new("ImageLabel")
+	ShadowImage.Name = "Shadow"
+	ShadowImage.BackgroundTransparency = 1
+	ShadowImage.Image = "rbxassetid://6014261993"
+	ShadowImage.ImageColor3 = Color3.new(0, 0, 0)
+	ShadowImage.ImageTransparency = 0.45
+	ShadowImage.ScaleType = Enum.ScaleType.Slice
+	ShadowImage.SliceCenter = Rect.new(49, 49, 450, 450)
+	ShadowImage.Size = UDim2.new(1, 60, 1, 60)
+	ShadowImage.Position = UDim2.new(0.5, 0, 0.5, 6)
+	ShadowImage.AnchorPoint = Vector2.new(0.5, 0.5)
+	ShadowImage.ZIndex = 0
+	ShadowImage.Parent = ScreenGui
+
 	MainFrame.Name = "MainFrame"
 	MainFrame.Size = UDim2.new(0, W, 0, H)
 	MainFrame.Position = UDim2.new(0.5, -W/2, 0.5, -H/2)
 	MainFrame.BackgroundColor3 = DarkBg
 	MainFrame.BorderSizePixel = 0
+	MainFrame.ClipsDescendants = true
 	MainFrame.Visible = true
 	MainFrame.Parent = ScreenGui
+
+	local MainCorner = Instance.new("UICorner", MainFrame)
+	MainCorner.CornerRadius = UDim.new(0, 6)
 
 	local UIStroke = Instance.new("UIStroke", MainFrame)
 	UIStroke.Color = BorderColor
 	UIStroke.Thickness = 1
+
+	ShadowImage.AnchorPoint = Vector2.new(0, 0)
+	ShadowImage.Position = UDim2.new(0, -30, 0, -30)
+	ShadowImage.Size = UDim2.new(0, W + 60, 0, H + 60)
+	local function syncShadow()
+		ShadowImage.Position = UDim2.new(0, MainFrame.AbsolutePosition.X - 30, 0, MainFrame.AbsolutePosition.Y - 30)
+		ShadowImage.Size = UDim2.new(0, MainFrame.AbsoluteSize.X + 60, 0, MainFrame.AbsoluteSize.Y + 60)
+	end
+	MainFrame:GetPropertyChangedSignal("Position"):Connect(syncShadow)
+	MainFrame:GetPropertyChangedSignal("Size"):Connect(syncShadow)
+	MainFrame:GetPropertyChangedSignal("Visible"):Connect(function()
+		ShadowImage.Visible = MainFrame.Visible
+	end)
+	task.defer(syncShadow)
 
 	local TopBar = Instance.new("Frame")
 	TopBar.Size = UDim2.new(1, 0, 0, 36)
 	TopBar.BackgroundColor3 = PanelBg
 	TopBar.BorderSizePixel = 0
 	TopBar.Parent = MainFrame
+
+	local TopBarCorner = Instance.new("UICorner", TopBar)
+	TopBarCorner.CornerRadius = UDim.new(0, 6)
+
+	local TopBarFix = Instance.new("Frame")
+	TopBarFix.Size = UDim2.new(1, 0, 0, 8)
+	TopBarFix.Position = UDim2.new(0, 0, 1, -8)
+	TopBarFix.BackgroundColor3 = PanelBg
+	TopBarFix.BorderSizePixel = 0
+	TopBarFix.Parent = TopBar
 
 	local TitleLabel = Instance.new("TextLabel")
 	TitleLabel.Text = config.Title or "Meloten Hub"
@@ -244,12 +286,55 @@ function Hub:CreateWindow(config)
 	Divider.Parent = MainFrame
 
 	local SidebarW = 140
+	local searchEnabled = config.Search == true
+	local sidebarTopOffset = 37 + (searchEnabled and 34 or 0)
 
-	local TabContainer = Instance.new("Frame")
-	TabContainer.Size = UDim2.new(0, SidebarW, 1, -37)
-	TabContainer.Position = UDim2.new(0, 0, 0, 37)
+	local SearchBox
+	if searchEnabled then
+		local SearchFrame = Instance.new("Frame")
+		SearchFrame.Size = UDim2.new(0, SidebarW, 0, 34)
+		SearchFrame.Position = UDim2.new(0, 0, 0, 37)
+		SearchFrame.BackgroundColor3 = PanelBg
+		SearchFrame.BorderSizePixel = 0
+		SearchFrame.Parent = MainFrame
+
+		SearchBox = Instance.new("TextBox")
+		SearchBox.PlaceholderText = "Search..."
+		SearchBox.Text = ""
+		SearchBox.Size = UDim2.new(1, -20, 0, 22)
+		SearchBox.Position = UDim2.new(0, 10, 0.5, -11)
+		SearchBox.BackgroundColor3 = DarkBg
+		SearchBox.TextColor3 = TextColor
+		SearchBox.PlaceholderColor3 = TextColorDim
+		SearchBox.Font = MonoFont
+		SearchBox.TextSize = 12
+		SearchBox.TextXAlignment = Enum.TextXAlignment.Left
+		SearchBox.ClipsDescendants = true
+		SearchBox.Parent = SearchFrame
+
+		local SearchBoxPadding = Instance.new("UIPadding", SearchBox)
+		SearchBoxPadding.PaddingLeft = UDim.new(0, 6)
+
+		local SearchBoxCorner = Instance.new("UICorner", SearchBox)
+		SearchBoxCorner.CornerRadius = UDim.new(0, 4)
+
+		local SearchDivider = Instance.new("Frame")
+		SearchDivider.Size = UDim2.new(1, 0, 0, 1)
+		SearchDivider.Position = UDim2.new(0, 0, 1, -1)
+		SearchDivider.BackgroundColor3 = BorderColor
+		SearchDivider.BorderSizePixel = 0
+		SearchDivider.Parent = SearchFrame
+	end
+
+	local TabContainer = Instance.new("ScrollingFrame")
+	TabContainer.Size = UDim2.new(0, SidebarW, 1, -sidebarTopOffset)
+	TabContainer.Position = UDim2.new(0, 0, 0, sidebarTopOffset)
 	TabContainer.BackgroundColor3 = PanelBg
 	TabContainer.BorderSizePixel = 0
+	TabContainer.ScrollBarThickness = 2
+	TabContainer.ScrollBarImageColor3 = BorderColor
+	TabContainer.CanvasSize = UDim2.new(0, 0, 0, 0)
+	TabContainer.AutomaticCanvasSize = Enum.AutomaticSize.Y
 	TabContainer.Parent = MainFrame
 
 	local TabListLayout = Instance.new("UIListLayout", TabContainer)
@@ -258,6 +343,7 @@ function Hub:CreateWindow(config)
 	local TabPadding = Instance.new("UIPadding", TabContainer)
 	TabPadding.PaddingTop = UDim.new(0, 8)
 	TabPadding.PaddingLeft = UDim.new(0, 10)
+	TabPadding.PaddingBottom = UDim.new(0, 8)
 
 	local SidebarDivider = Instance.new("Frame")
 	SidebarDivider.Size = UDim2.new(0, 1, 1, -37)
@@ -295,6 +381,9 @@ function Hub:CreateWindow(config)
 	OpenStroke.Color = BorderColor
 	OpenStroke.Thickness = 1
 
+	local OpenCorner = Instance.new("UICorner", OpenButton)
+	OpenCorner.CornerRadius = UDim.new(0, 8)
+
 	makeDraggable(TopBar, MainFrame)
 	makeDraggable(OpenButton, OpenButton)
 
@@ -319,6 +408,22 @@ function Hub:CreateWindow(config)
 	self._pagesFolder = PagesFolder
 	self._W = W
 	self._H = H
+	self._searchables = {}
+
+	if SearchBox then
+		SearchBox:GetPropertyChangedSignal("Text"):Connect(function()
+			local query = SearchBox.Text:lower()
+			for _, entry in ipairs(self._searchables) do
+				if entry.page == self._currentPage then
+					if query == "" then
+						entry.frame.Visible = true
+					else
+						entry.frame.Visible = entry.name:lower():find(query, 1, true) ~= nil
+					end
+				end
+			end
+		end)
+	end
 
 	function self:AddTab(name)
 		local Page = Instance.new("ScrollingFrame")
@@ -360,6 +465,12 @@ function Hub:CreateWindow(config)
 			win._currentPage = Page
 			Page.Visible = true
 			TweenService:Create(TabBtn, TweenInfo.new(0.15), {BackgroundTransparency = 0.85, TextColor3 = TextColor}):Play()
+			if SearchBox then
+				SearchBox.Text = ""
+				for _, entry in ipairs(win._searchables) do
+					entry.frame.Visible = true
+				end
+			end
 		end)
 
 		if not self._currentTab then
@@ -371,6 +482,12 @@ function Hub:CreateWindow(config)
 		end
 
 		local tab = {}
+
+		local function registerSearchable(frame, name)
+			if searchEnabled then
+				table.insert(win._searchables, {frame = frame, name = name, page = Page})
+			end
+		end
 
 		function tab:AddToggle(labelText, callback)
 			local ToggleFrame = Instance.new("Frame")
@@ -433,6 +550,8 @@ function Hub:CreateWindow(config)
 				setState(not state)
 				callback(state)
 			end)
+
+			registerSearchable(ToggleFrame, labelText)
 		end
 
 		function tab:AddButton(labelText, buttonText, callback)
@@ -465,6 +584,9 @@ function Hub:CreateWindow(config)
 			BtnStroke.Color = BorderColor
 			BtnStroke.Thickness = 1
 
+			local BtnCorner = Instance.new("UICorner", Btn)
+			BtnCorner.CornerRadius = UDim.new(0, 4)
+
 			local BottomDivider = Instance.new("Frame")
 			BottomDivider.Size = UDim2.new(1, 0, 0, 1)
 			BottomDivider.Position = UDim2.new(0, 0, 1, -2)
@@ -478,6 +600,8 @@ function Hub:CreateWindow(config)
 				TweenService:Create(BtnStroke, TweenInfo.new(0.1), {Color = BorderColor}):Play()
 				callback()
 			end)
+
+			registerSearchable(Frame, labelText)
 		end
 
 		function tab:AddSlider(labelText, minVal, maxVal, defaultVal, callback)
@@ -573,6 +697,8 @@ function Hub:CreateWindow(config)
 					dragging = false
 				end
 			end)
+
+			registerSearchable(SliderFrame, labelText)
 		end
 
 		function tab:AddInput(labelText, placeholderText, callback)
@@ -607,6 +733,9 @@ function Hub:CreateWindow(config)
 			TextStroke.Color = BorderColor
 			TextStroke.Thickness = 1
 
+			local TextBoxCorner = Instance.new("UICorner", TextBox)
+			TextBoxCorner.CornerRadius = UDim.new(0, 4)
+
 			local BottomDivider = Instance.new("Frame")
 			BottomDivider.Size = UDim2.new(1, 0, 0, 1)
 			BottomDivider.Position = UDim2.new(0, 0, 1, -2)
@@ -621,6 +750,8 @@ function Hub:CreateWindow(config)
 				TweenService:Create(TextStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
 				callback(TextBox.Text)
 			end)
+
+			registerSearchable(InputFrame, labelText)
 		end
 
 		function tab:AddLabel(text, color)
@@ -748,6 +879,68 @@ function Hub:CreateWindow(config)
 
 		return tab
 	end
+
+	local ResizeHandle = Instance.new("TextButton")
+	ResizeHandle.Text = ""
+	ResizeHandle.Size = UDim2.new(0, 16, 0, 16)
+	ResizeHandle.Position = UDim2.new(1, -16, 1, -16)
+	ResizeHandle.BackgroundTransparency = 1
+	ResizeHandle.AutoButtonColor = false
+	ResizeHandle.Parent = MainFrame
+
+	local ResizeIcon = Instance.new("Frame")
+	ResizeIcon.Size = UDim2.new(0, 8, 0, 8)
+	ResizeIcon.Position = UDim2.new(1, -10, 1, -10)
+	ResizeIcon.BackgroundTransparency = 1
+	ResizeIcon.Parent = ResizeHandle
+
+	for i = 1, 3 do
+		local Dot = Instance.new("Frame")
+		Dot.Size = UDim2.new(0, 2, 0, 2)
+		Dot.Position = UDim2.new(1, -2 - (i - 1) * 4, 1, -2)
+		Dot.BackgroundColor3 = BorderColor
+		Dot.BorderSizePixel = 0
+		Dot.Parent = ResizeIcon
+		for j = 1, i do
+			if j > 1 then
+				local ExtraDot = Instance.new("Frame")
+				ExtraDot.Size = UDim2.new(0, 2, 0, 2)
+				ExtraDot.Position = UDim2.new(1, -2 - (i - 1) * 4, 1, -2 - (j - 1) * 4)
+				ExtraDot.BackgroundColor3 = BorderColor
+				ExtraDot.BorderSizePixel = 0
+				ExtraDot.Parent = ResizeIcon
+			end
+		end
+	end
+
+	local MinW, MinH = 400, 280
+	local resizing, resizeStart, sizeStart = false, nil, nil
+
+	ResizeHandle.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			resizing = true
+			resizeStart = input.Position
+			sizeStart = MainFrame.Size
+		end
+	end)
+
+	UserInputService.InputChanged:Connect(function(input)
+		if not resizing then return end
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			local delta = input.Position - resizeStart
+			local newW = math.max(MinW, sizeStart.X.Offset + delta.X)
+			local newH = math.max(MinH, sizeStart.Y.Offset + delta.Y)
+			MainFrame.Size = UDim2.new(0, newW, 0, newH)
+			self._W = newW
+			self._H = newH
+		end
+	end)
+
+	UserInputService.InputEnded:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			resizing = false
+		end
+	end)
 
 	return self
 end
