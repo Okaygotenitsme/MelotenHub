@@ -952,6 +952,114 @@ function Hub:CreateWindow(config)
 			end
 		end
 
+		function tab:AddDropdown(labelText, options, callback)
+			local selected = options[1]
+			local open = false
+
+			local DropFrame = Instance.new("Frame")
+			DropFrame.Size = UDim2.new(1, -4, 0, 34)
+			DropFrame.BackgroundTransparency = 1
+			DropFrame.ClipsDescendants = false
+			DropFrame.Parent = Page
+
+			local Label = Instance.new("TextLabel")
+			Label.Text = labelText
+			Label.Size = UDim2.new(1, -140, 1, 0)
+			Label.BackgroundTransparency = 1
+			Label.TextColor3 = TextColorDim
+			Label.Font = MonoFont
+			Label.TextSize = 14
+			Label.TextXAlignment = Enum.TextXAlignment.Left
+			Label.Parent = DropFrame
+
+			local Btn = Instance.new("TextButton")
+			Btn.Text = selected .. "  ▾"
+			Btn.Size = UDim2.new(0, 130, 0, 26)
+			Btn.Position = UDim2.new(1, -130, 0.5, -13)
+			Btn.BackgroundColor3 = PanelBg
+			Btn.TextColor3 = TextColor
+			Btn.Font = MonoFont
+			Btn.TextSize = 12
+			Btn.TextTruncate = Enum.TextTruncate.AtEnd
+			Btn.Parent = DropFrame
+
+			local BtnStroke = Instance.new("UIStroke", Btn)
+			BtnStroke.Color = BorderColor
+			BtnStroke.Thickness = 1
+
+			local BtnCorner = Instance.new("UICorner", Btn)
+			BtnCorner.CornerRadius = UDim.new(0, 4)
+
+			local BottomDivider = Instance.new("Frame")
+			BottomDivider.Size = UDim2.new(1, 0, 0, 1)
+			BottomDivider.Position = UDim2.new(0, 0, 1, -2)
+			BottomDivider.BackgroundColor3 = BorderColor
+			BottomDivider.BorderSizePixel = 0
+			BottomDivider.Parent = DropFrame
+
+			local Menu = Instance.new("Frame")
+			Menu.Size = UDim2.new(0, 130, 0, #options * 28)
+			Menu.Position = UDim2.new(1, -130, 1, 2)
+			Menu.BackgroundColor3 = PanelBg
+			Menu.BorderSizePixel = 0
+			Menu.Visible = false
+			Menu.ZIndex = 10
+			Menu.Parent = DropFrame
+
+			local MenuStroke = Instance.new("UIStroke", Menu)
+			MenuStroke.Color = BorderColor
+			MenuStroke.Thickness = 1
+
+			local MenuCorner = Instance.new("UICorner", Menu)
+			MenuCorner.CornerRadius = UDim.new(0, 4)
+
+			local MenuLayout = Instance.new("UIListLayout", Menu)
+			MenuLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+			for _, option in ipairs(options) do
+				local OptBtn = Instance.new("TextButton")
+				OptBtn.Text = option
+				OptBtn.Size = UDim2.new(1, 0, 0, 28)
+				OptBtn.BackgroundTransparency = 1
+				OptBtn.TextColor3 = option == selected and TextColor or TextColorDim
+				OptBtn.Font = MonoFont
+				OptBtn.TextSize = 12
+				OptBtn.TextTruncate = Enum.TextTruncate.AtEnd
+				OptBtn.ZIndex = 11
+				OptBtn.Parent = Menu
+
+				OptBtn.MouseEnter:Connect(function()
+					TweenService:Create(OptBtn, TweenInfo.new(0.1), {TextColor3 = TextColor}):Play()
+				end)
+				OptBtn.MouseLeave:Connect(function()
+					if OptBtn.Text ~= selected then
+						TweenService:Create(OptBtn, TweenInfo.new(0.1), {TextColor3 = TextColorDim}):Play()
+					end
+				end)
+				OptBtn.MouseButton1Click:Connect(function()
+					selected = option
+					Btn.Text = option .. "  ▾"
+					for _, child in ipairs(Menu:GetChildren()) do
+						if child:IsA("TextButton") then
+							child.TextColor3 = child.Text == selected and TextColor or TextColorDim
+						end
+					end
+					Menu.Visible = false
+					open = false
+					TweenService:Create(BtnStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
+					callback(selected)
+				end)
+			end
+
+			Btn.MouseButton1Click:Connect(function()
+				open = not open
+				Menu.Visible = open
+				TweenService:Create(BtnStroke, TweenInfo.new(0.15), {Color = open and PurpleAccent or BorderColor}):Play()
+			end)
+
+			registerSearchable(DropFrame, labelText)
+		end
+
 		return tab
 	end
 
