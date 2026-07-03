@@ -872,6 +872,7 @@ function Hub:CreateWindow(config)
 
 		function tab:AddMultiToggle(labelText, options, callback)
 			local selected = {}
+			local controls = {}
 
 			local HeaderFrame = Instance.new("Frame")
 			HeaderFrame.Size = UDim2.new(1, -4, 0, 26)
@@ -934,22 +935,38 @@ function Hub:CreateWindow(config)
 				local optState = false
 				local optName = option
 
-				SwBtn.MouseButton1Click:Connect(function()
-					optState = not optState
-					selected[optName] = optState
-
-					local swColor = optState and PurpleAccent or Color3.fromRGB(35, 35, 40)
-					local circPos = optState and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7)
-					local circColor = optState and TextColor or Color3.fromRGB(130, 130, 140)
-					local labelColor = optState and TextColor or TextColorDim
-
+				local function applyVisual(state)
+					local swColor = state and PurpleAccent or Color3.fromRGB(35, 35, 40)
+					local circPos = state and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7)
+					local circColor = state and TextColor or Color3.fromRGB(130, 130, 140)
+					local labelColor = state and TextColor or TextColorDim
 					TweenService:Create(Sw, TweenInfo.new(0.15), {BackgroundColor3 = swColor}):Play()
 					TweenService:Create(Circ, TweenInfo.new(0.15), {Position = circPos, BackgroundColor3 = circColor}):Play()
 					TweenService:Create(OptLabel, TweenInfo.new(0.15), {TextColor3 = labelColor}):Play()
+				end
 
+				controls[optName] = function(state)
+					optState = state
+					selected[optName] = state
+					applyVisual(state)
+				end
+
+				SwBtn.MouseButton1Click:Connect(function()
+					optState = not optState
+					selected[optName] = optState
+					applyVisual(optState)
 					callback(selected)
 				end)
 			end
+
+			local api = {}
+			function api:SetAll(state)
+				for _, setter in pairs(controls) do
+					setter(state)
+				end
+				callback(selected)
+			end
+			return api
 		end
 
 		function tab:AddDropdown(labelText, options, callback)
