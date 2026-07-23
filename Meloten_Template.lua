@@ -444,12 +444,24 @@ function Hub:CreateWindow(config)
 
 	if config.KeySystem then
 		local keyDuration = config.KeyDuration or 86400
-		local authFile = "Key_Melo_auth_" .. (config.ID or "default") .. ".txt"
+		local hubID = config.ID or "default"
+		local authFile = "Key_Melo_auth_" .. hubID .. ".txt"
 		local authValid = false
 		pcall(function()
-			local saved = tonumber(readfile(authFile))
-			if saved and (os.time() - saved) < keyDuration then
-				authValid = true
+			local data = readfile(authFile)
+			local savedID, savedKey, savedTime = data:match("^(.-)|(.-)|(%-?%d+)$")
+			savedTime = tonumber(savedTime)
+			if savedID == hubID and savedTime and (os.time() - savedTime) < keyDuration then
+				if config.ValidKeys then
+					for _, k in ipairs(config.ValidKeys) do
+						if k == savedKey then
+							authValid = true
+							break
+						end
+					end
+				elseif config.KeyUrl then
+					authValid = true
+				end
 			end
 		end)
 
@@ -625,20 +637,32 @@ function Hub:CreateWindow(config)
 			KShadow.Position = UDim2.new(0, KeyFrame.AbsolutePosition.X - 30, 0, KeyFrame.AbsolutePosition.Y - 30)
 		end)
 
-		local validKeys = config.ValidKeys or {}
+		local function checkKey(input)
+			if config.KeyUrl then
+				local ok = false
+				pcall(function()
+					local url = config.KeyUrl .. "?key=" .. input .. "&id=" .. hubID
+					local response = game:HttpGet(url)
+					response = response:gsub("%s+", "")
+					ok = (response == "true")
+				end)
+				return ok
+			elseif config.ValidKeys then
+				for _, k in ipairs(config.ValidKeys) do
+					if k == input then
+						return true
+					end
+				end
+			end
+			return false
+		end
 
 		KConfirmBtn.MouseButton1Click:Connect(function()
 			local input = KInputBox.Text
-			local ok = false
-			for _, k in ipairs(validKeys) do
-				if k == input then
-					ok = true
-					break
-				end
-			end
+			local ok = checkKey(input)
 			if ok then
 				pcall(function()
-					writefile(authFile, tostring(os.time()))
+					writefile(authFile, hubID .. "|" .. input .. "|" .. tostring(os.time()))
 				end)
 				local fadeTween = TweenService:Create(KeyFrame, TweenInfo.new(0.2), {BackgroundTransparency = 1})
 				TweenService:Create(KShadow, TweenInfo.new(0.2), {ImageTransparency = 1}):Play()
@@ -866,10 +890,19 @@ function Hub:CreateWindow(config)
 				TweenService:Create(Label, TweenInfo.new(0.15), {TextColor3 = labelColor}):Play()
 			end
 
+			SwBtn.MouseEnter:Connect(function()
+				TweenService:Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundTransparency = 0.95}):Play()
+			end)
+			SwBtn.MouseLeave:Connect(function()
+				TweenService:Create(ToggleFrame, TweenInfo.new(0.15), {BackgroundTransparency = 1}):Play()
+			end)
 			SwBtn.MouseButton1Click:Connect(function()
 				setState(not state)
 				callback(state)
 			end)
+
+			ToggleFrame.BackgroundColor3 = ElementBgHover
+			Instance.new("UICorner", ToggleFrame).CornerRadius = UDim.new(0, 4)
 
 			registerSearchable(ToggleFrame, labelText)
 		end
@@ -914,10 +947,22 @@ function Hub:CreateWindow(config)
 			BottomDivider.BorderSizePixel = 0
 			BottomDivider.Parent = Frame
 
+			Frame.BackgroundColor3 = ElementBgHover
+			Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 4)
+
+			Btn.MouseEnter:Connect(function()
+				TweenService:Create(Frame, TweenInfo.new(0.15), {BackgroundTransparency = 0.95}):Play()
+				TweenService:Create(BtnStroke, TweenInfo.new(0.15), {Color = PurpleAccent}):Play()
+			end)
+			Btn.MouseLeave:Connect(function()
+				TweenService:Create(Frame, TweenInfo.new(0.15), {BackgroundTransparency = 1}):Play()
+				TweenService:Create(BtnStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
+			end)
 			Btn.MouseButton1Click:Connect(function()
-				TweenService:Create(BtnStroke, TweenInfo.new(0.1), {Color = PurpleAccent}):Play()
-				task.wait(0.1)
-				TweenService:Create(BtnStroke, TweenInfo.new(0.1), {Color = BorderColor}):Play()
+				TweenService:Create(Btn, TweenInfo.new(0.08), {BackgroundColor3 = PurpleAccent}):Play()
+				task.delay(0.12, function()
+					TweenService:Create(Btn, TweenInfo.new(0.12), {BackgroundColor3 = PanelBg}):Play()
+				end)
 				callback()
 			end)
 
@@ -1018,6 +1063,20 @@ function Hub:CreateWindow(config)
 				end
 			end)
 
+			SliderFrame.BackgroundColor3 = ElementBgHover
+			Instance.new("UICorner", SliderFrame).CornerRadius = UDim.new(0, 4)
+
+			HitArea.MouseEnter:Connect(function()
+				TweenService:Create(SliderFrame, TweenInfo.new(0.15), {BackgroundTransparency = 0.95}):Play()
+				TweenService:Create(Knob, TweenInfo.new(0.15), {Size = UDim2.new(0, 13, 0, 13)}):Play()
+			end)
+			HitArea.MouseLeave:Connect(function()
+				if not dragging then
+					TweenService:Create(SliderFrame, TweenInfo.new(0.15), {BackgroundTransparency = 1}):Play()
+					TweenService:Create(Knob, TweenInfo.new(0.15), {Size = UDim2.new(0, 10, 0, 10)}):Play()
+				end
+			end)
+
 			registerSearchable(SliderFrame, labelText)
 		end
 
@@ -1069,6 +1128,13 @@ function Hub:CreateWindow(config)
 			TextBox.FocusLost:Connect(function()
 				TweenService:Create(TextStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
 				callback(TextBox.Text)
+			end)
+
+			InputFrame.BackgroundColor3 = ElementBgHover
+			Instance.new("UICorner", InputFrame).CornerRadius = UDim.new(0, 4)
+
+			TextBox.Focused:Connect(function()
+				TweenService:Create(InputFrame, TweenInfo.new(0.15), {BackgroundTransparency = 0.92}):Play()
 			end)
 
 			registerSearchable(InputFrame, labelText)
@@ -1320,6 +1386,384 @@ function Hub:CreateWindow(config)
 			end)
 
 			registerSearchable(DropFrame, labelText)
+		end
+
+
+		function tab:AddParagraph(title, text)
+			local PFrame = Instance.new("Frame")
+			PFrame.Size = UDim2.new(1, -4, 0, 0)
+			PFrame.AutomaticSize = Enum.AutomaticSize.Y
+			PFrame.BackgroundColor3 = ElementBgHover
+			PFrame.BackgroundTransparency = 0.5
+			PFrame.BorderSizePixel = 0
+			PFrame.Parent = Page
+			Instance.new("UICorner", PFrame).CornerRadius = UDim.new(0, 4)
+
+			local PStroke = Instance.new("UIStroke", PFrame)
+			PStroke.Color = BorderColor
+			PStroke.Thickness = 1
+
+			local PPad = Instance.new("UIPadding", PFrame)
+			PPad.PaddingLeft = UDim.new(0, 10)
+			PPad.PaddingRight = UDim.new(0, 10)
+			PPad.PaddingTop = UDim.new(0, 8)
+			PPad.PaddingBottom = UDim.new(0, 8)
+
+			local PLayout = Instance.new("UIListLayout", PFrame)
+			PLayout.Padding = UDim.new(0, 4)
+			PLayout.SortOrder = Enum.SortOrder.LayoutOrder
+
+			local TitleLabel = Instance.new("TextLabel")
+			TitleLabel.Text = title
+			TitleLabel.Size = UDim2.new(1, 0, 0, 16)
+			TitleLabel.BackgroundTransparency = 1
+			TitleLabel.TextColor3 = TextColor
+			TitleLabel.Font = MonoFontBold
+			TitleLabel.TextSize = 13
+			TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
+			TitleLabel.LayoutOrder = 1
+			TitleLabel.Parent = PFrame
+
+			local TextLabel = Instance.new("TextLabel")
+			TextLabel.Text = text
+			TextLabel.Size = UDim2.new(1, 0, 0, 0)
+			TextLabel.AutomaticSize = Enum.AutomaticSize.Y
+			TextLabel.BackgroundTransparency = 1
+			TextLabel.TextColor3 = TextColorDim
+			TextLabel.Font = MonoFont
+			TextLabel.TextSize = 12
+			TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+			TextLabel.TextWrapped = true
+			TextLabel.LayoutOrder = 2
+			TextLabel.Parent = PFrame
+
+			local Spacer = Instance.new("Frame")
+			Spacer.Size = UDim2.new(1, 0, 0, 4)
+			Spacer.BackgroundTransparency = 1
+			Spacer.LayoutOrder = 3
+			Spacer.Parent = PFrame
+
+			local api = {}
+			function api:SetTitle(t) TitleLabel.Text = t end
+			function api:SetText(t) TextLabel.Text = t end
+			return api
+		end
+
+		function tab:AddKeybind(labelText, defaultKey, callback)
+			local currentKey = defaultKey or "None"
+			local listening = false
+
+			local KFrame = Instance.new("Frame")
+			KFrame.Size = UDim2.new(1, -4, 0, 34)
+			KFrame.BackgroundColor3 = ElementBgHover
+			KFrame.BackgroundTransparency = 1
+			KFrame.BorderSizePixel = 0
+			KFrame.Parent = Page
+			Instance.new("UICorner", KFrame).CornerRadius = UDim.new(0, 4)
+
+			local Label = Instance.new("TextLabel")
+			Label.Text = labelText
+			Label.Size = UDim2.new(1, -100, 1, 0)
+			Label.BackgroundTransparency = 1
+			Label.TextColor3 = TextColorDim
+			Label.Font = MonoFont
+			Label.TextSize = 14
+			Label.TextXAlignment = Enum.TextXAlignment.Left
+			Label.Parent = KFrame
+
+			local KeyBtn = Instance.new("TextButton")
+			KeyBtn.Text = currentKey
+			KeyBtn.Size = UDim2.new(0, 84, 0, 26)
+			KeyBtn.Position = UDim2.new(1, -84, 0.5, -13)
+			KeyBtn.BackgroundColor3 = PanelBg
+			KeyBtn.TextColor3 = TextColor
+			KeyBtn.Font = MonoFontBold
+			KeyBtn.TextSize = 12
+			KeyBtn.Parent = KFrame
+			Instance.new("UICorner", KeyBtn).CornerRadius = UDim.new(0, 4)
+
+			local KeyStroke = Instance.new("UIStroke", KeyBtn)
+			KeyStroke.Color = BorderColor
+			KeyStroke.Thickness = 1
+
+			local BottomDivider = Instance.new("Frame")
+			BottomDivider.Size = UDim2.new(1, 0, 0, 1)
+			BottomDivider.Position = UDim2.new(0, 0, 1, -2)
+			BottomDivider.BackgroundColor3 = BorderColor
+			BottomDivider.BorderSizePixel = 0
+			BottomDivider.Parent = KFrame
+
+			KFrame.BackgroundColor3 = ElementBgHover
+			KeyBtn.MouseEnter:Connect(function()
+				TweenService:Create(KFrame, TweenInfo.new(0.15), {BackgroundTransparency = 0.95}):Play()
+				if not listening then
+					TweenService:Create(KeyStroke, TweenInfo.new(0.15), {Color = PurpleAccent}):Play()
+				end
+			end)
+			KeyBtn.MouseLeave:Connect(function()
+				TweenService:Create(KFrame, TweenInfo.new(0.15), {BackgroundTransparency = 1}):Play()
+				if not listening then
+					TweenService:Create(KeyStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
+				end
+			end)
+
+			KeyBtn.MouseButton1Click:Connect(function()
+				if listening then return end
+				listening = true
+				KeyBtn.Text = "..."
+				TweenService:Create(KeyStroke, TweenInfo.new(0.15), {Color = PurpleAccent}):Play()
+
+				local conn
+				conn = UserInputService.InputBegan:Connect(function(input, gp)
+					if gp then return end
+					if input.UserInputType == Enum.UserInputType.Keyboard then
+						local keyName = input.KeyCode.Name
+						if keyName == "Escape" then
+							currentKey = "None"
+						else
+							currentKey = keyName
+						end
+						KeyBtn.Text = currentKey
+						TweenService:Create(KeyStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
+						listening = false
+						conn:Disconnect()
+						callback(currentKey)
+					end
+				end)
+			end)
+
+			UserInputService.InputBegan:Connect(function(input, gp)
+				if gp then return end
+				if not listening and input.UserInputType == Enum.UserInputType.Keyboard then
+					if input.KeyCode.Name == currentKey then
+						callback(currentKey)
+					end
+				end
+			end)
+
+			registerSearchable(KFrame, labelText)
+
+			local api = {}
+			function api:SetKey(k)
+				currentKey = k
+				KeyBtn.Text = k
+			end
+			function api:GetKey() return currentKey end
+			return api
+		end
+
+		function tab:AddColorPicker(labelText, defaultColor, callback)
+			defaultColor = defaultColor or Color3.fromRGB(255, 255, 255)
+			local currentColor = defaultColor
+			local open = false
+
+			local h, s, v = Color3.toHSV(defaultColor)
+
+			local CPFrame = Instance.new("Frame")
+			CPFrame.Size = UDim2.new(1, -4, 0, 34)
+			CPFrame.BackgroundColor3 = ElementBgHover
+			CPFrame.BackgroundTransparency = 1
+			CPFrame.BorderSizePixel = 0
+			CPFrame.Parent = Page
+			CPFrame.ClipsDescendants = false
+			Instance.new("UICorner", CPFrame).CornerRadius = UDim.new(0, 4)
+
+			local Label = Instance.new("TextLabel")
+			Label.Text = labelText
+			Label.Size = UDim2.new(1, -100, 1, 0)
+			Label.BackgroundTransparency = 1
+			Label.TextColor3 = TextColorDim
+			Label.Font = MonoFont
+			Label.TextSize = 14
+			Label.TextXAlignment = Enum.TextXAlignment.Left
+			Label.Parent = CPFrame
+
+			local Preview = Instance.new("TextButton")
+			Preview.Size = UDim2.new(0, 60, 0, 22)
+			Preview.Position = UDim2.new(1, -64, 0.5, -11)
+			Preview.BackgroundColor3 = currentColor
+			Preview.Text = ""
+			Preview.Parent = CPFrame
+			Instance.new("UICorner", Preview).CornerRadius = UDim.new(0, 4)
+			local PrevStroke = Instance.new("UIStroke", Preview)
+			PrevStroke.Color = BorderColor
+			PrevStroke.Thickness = 1
+
+			local BottomDivider = Instance.new("Frame")
+			BottomDivider.Size = UDim2.new(1, 0, 0, 1)
+			BottomDivider.Position = UDim2.new(0, 0, 1, -2)
+			BottomDivider.BackgroundColor3 = BorderColor
+			BottomDivider.BorderSizePixel = 0
+			BottomDivider.Parent = CPFrame
+
+			local Picker = Instance.new("Frame")
+			Picker.Size = UDim2.new(0, 200, 0, 160)
+			Picker.Position = UDim2.new(1, -204, 1, 4)
+			Picker.BackgroundColor3 = DarkBg
+			Picker.BorderSizePixel = 0
+			Picker.Visible = false
+			Picker.ZIndex = 20
+			Picker.Parent = CPFrame
+			Instance.new("UICorner", Picker).CornerRadius = UDim.new(0, 6)
+			local PickerStroke = Instance.new("UIStroke", Picker)
+			PickerStroke.Color = BorderColor
+			PickerStroke.Thickness = 1
+
+			local SV = Instance.new("ImageLabel")
+			SV.Size = UDim2.new(1, -12, 0, 100)
+			SV.Position = UDim2.new(0, 6, 0, 6)
+			SV.Image = "rbxassetid://698549961"
+			SV.BackgroundColor3 = Color3.fromHSV(h, 1, 1)
+			SV.BorderSizePixel = 0
+			SV.ZIndex = 21
+			SV.Parent = Picker
+			Instance.new("UICorner", SV).CornerRadius = UDim.new(0, 4)
+
+			local SVCursor = Instance.new("Frame")
+			SVCursor.Size = UDim2.new(0, 8, 0, 8)
+			SVCursor.AnchorPoint = Vector2.new(0.5, 0.5)
+			SVCursor.Position = UDim2.new(s, 0, 1 - v, 0)
+			SVCursor.BackgroundColor3 = Color3.new(1, 1, 1)
+			SVCursor.BorderSizePixel = 0
+			SVCursor.ZIndex = 22
+			SVCursor.Parent = SV
+			Instance.new("UICorner", SVCursor).CornerRadius = UDim.new(1, 0)
+
+			local HueBar = Instance.new("ImageLabel")
+			HueBar.Size = UDim2.new(1, -12, 0, 12)
+			HueBar.Position = UDim2.new(0, 6, 0, 112)
+			HueBar.Image = "rbxassetid://698549981"
+			HueBar.BorderSizePixel = 0
+			HueBar.ZIndex = 21
+			HueBar.Parent = Picker
+			Instance.new("UICorner", HueBar).CornerRadius = UDim.new(1, 0)
+
+			local HueCursor = Instance.new("Frame")
+			HueCursor.Size = UDim2.new(0, 4, 1, 2)
+			HueCursor.AnchorPoint = Vector2.new(0.5, 0.5)
+			HueCursor.Position = UDim2.new(h, 0, 0.5, 0)
+			HueCursor.BackgroundColor3 = Color3.new(1, 1, 1)
+			HueCursor.BorderSizePixel = 0
+			HueCursor.ZIndex = 22
+			HueCursor.Parent = HueBar
+			Instance.new("UICorner", HueCursor).CornerRadius = UDim.new(0, 2)
+
+			local HexBox = Instance.new("TextBox")
+			HexBox.Size = UDim2.new(1, -12, 0, 22)
+			HexBox.Position = UDim2.new(0, 6, 0, 130)
+			HexBox.BackgroundColor3 = PanelBg
+			HexBox.TextColor3 = TextColor
+			HexBox.Font = MonoFont
+			HexBox.TextSize = 12
+			HexBox.PlaceholderText = "Hex"
+			HexBox.PlaceholderColor3 = TextColorDim
+			HexBox.Text = "#" .. currentColor:ToHex()
+			HexBox.BorderSizePixel = 0
+			HexBox.ZIndex = 21
+			HexBox.Parent = Picker
+			Instance.new("UICorner", HexBox).CornerRadius = UDim.new(0, 4)
+			local HexStroke = Instance.new("UIStroke", HexBox)
+			HexStroke.Color = BorderColor
+			HexStroke.Thickness = 1
+			local HexPad = Instance.new("UIPadding", HexBox)
+			HexPad.PaddingLeft = UDim.new(0, 6)
+
+			local function updateColor()
+				currentColor = Color3.fromHSV(h, s, v)
+				Preview.BackgroundColor3 = currentColor
+				SV.BackgroundColor3 = Color3.fromHSV(h, 1, 1)
+				SVCursor.Position = UDim2.new(s, 0, 1 - v, 0)
+				HueCursor.Position = UDim2.new(h, 0, 0.5, 0)
+				HexBox.Text = "#" .. currentColor:ToHex()
+				callback(currentColor)
+			end
+
+			local svDragging = false
+			local hueDragging = false
+
+			SV.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					svDragging = true
+					local rel = SV.AbsolutePosition
+					local sz = SV.AbsoluteSize
+					s = math.clamp((input.Position.X - rel.X) / sz.X, 0, 1)
+					v = 1 - math.clamp((input.Position.Y - rel.Y) / sz.Y, 0, 1)
+					updateColor()
+				end
+			end)
+
+			HueBar.InputBegan:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					hueDragging = true
+					local rel = HueBar.AbsolutePosition
+					local sz = HueBar.AbsoluteSize
+					h = math.clamp((input.Position.X - rel.X) / sz.X, 0, 1)
+					updateColor()
+				end
+			end)
+
+			UserInputService.InputChanged:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseMovement then
+					if svDragging then
+						local rel = SV.AbsolutePosition
+						local sz = SV.AbsoluteSize
+						s = math.clamp((input.Position.X - rel.X) / sz.X, 0, 1)
+						v = 1 - math.clamp((input.Position.Y - rel.Y) / sz.Y, 0, 1)
+						updateColor()
+					elseif hueDragging then
+						local rel = HueBar.AbsolutePosition
+						local sz = HueBar.AbsoluteSize
+						h = math.clamp((input.Position.X - rel.X) / sz.X, 0, 1)
+						updateColor()
+					end
+				end
+			end)
+
+			UserInputService.InputEnded:Connect(function(input)
+				if input.UserInputType == Enum.UserInputType.MouseButton1 then
+					svDragging = false
+					hueDragging = false
+				end
+			end)
+
+			HexBox.FocusLost:Connect(function(enter)
+				if enter then
+					local hex = HexBox.Text:gsub("#", "")
+					local ok, col = pcall(Color3.fromHex, hex)
+					if ok then
+						h, s, v = Color3.toHSV(col)
+						updateColor()
+					end
+				end
+			end)
+
+			Preview.MouseButton1Click:Connect(function()
+				open = not open
+				Picker.Visible = open
+				TweenService:Create(PrevStroke, TweenInfo.new(0.15), {Color = open and PurpleAccent or BorderColor}):Play()
+				TweenService:Create(CPFrame, TweenInfo.new(0.15), {BackgroundTransparency = open and 0.92 or 1}):Play()
+			end)
+
+			Preview.MouseEnter:Connect(function()
+				TweenService:Create(CPFrame, TweenInfo.new(0.15), {BackgroundTransparency = 0.95}):Play()
+				TweenService:Create(PrevStroke, TweenInfo.new(0.15), {Color = PurpleAccent}):Play()
+			end)
+			Preview.MouseLeave:Connect(function()
+				if not open then
+					TweenService:Create(CPFrame, TweenInfo.new(0.15), {BackgroundTransparency = 1}):Play()
+					TweenService:Create(PrevStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
+				end
+			end)
+
+			registerSearchable(CPFrame, labelText)
+
+			local api = {}
+			function api:SetColor(col)
+				h, s, v = Color3.toHSV(col)
+				updateColor()
+			end
+			function api:GetColor() return currentColor end
+			return api
 		end
 
 		return tab
