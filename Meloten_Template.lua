@@ -197,7 +197,7 @@ function Hub:CreateWindow(config)
 	ShadowImage.ZIndex = 0
 	ShadowImage.Parent = ScreenGui
 
-	_G.__HUB_INSTANCES[hubID] = ScreenGui
+	_G.__HUB_INSTANCES[hubID] = MainFrame
 
 	MainFrame.Name = "MainFrame"
 	MainFrame.Size = UDim2.new(0, W, 0, H)
@@ -297,7 +297,7 @@ function Hub:CreateWindow(config)
 
 	local TitleLabel = Instance.new("TextLabel")
 	TitleLabel.Text = config.Title or "Meloten Hub"
-	TitleLabel.Size = UDim2.new(1, -80, 1, 0)
+	TitleLabel.Size = UDim2.new(1, -110, 1, 0)
 	TitleLabel.Position = UDim2.new(0, 14, 0, 0)
 	TitleLabel.BackgroundTransparency = 1
 	TitleLabel.TextColor3 = TextColor
@@ -317,20 +317,37 @@ function Hub:CreateWindow(config)
 	end
 
 	local CloseBtn = Instance.new("TextButton")
-	CloseBtn.Text = "x"
+	CloseBtn.Text = "×"
 	CloseBtn.Size = UDim2.new(0, 28, 0, 28)
 	CloseBtn.Position = UDim2.new(1, -32, 0.5, -14)
 	CloseBtn.BackgroundTransparency = 1
 	CloseBtn.TextColor3 = TextColorDim
 	CloseBtn.Font = MonoFontBold
-	CloseBtn.TextSize = 15
+	CloseBtn.TextSize = 18
 	CloseBtn.Parent = TopBar
 
+	local MinimizeBtn = Instance.new("TextButton")
+	MinimizeBtn.Text = "−"
+	MinimizeBtn.Size = UDim2.new(0, 28, 0, 28)
+	MinimizeBtn.Position = UDim2.new(1, -62, 0.5, -14)
+	MinimizeBtn.BackgroundTransparency = 1
+	MinimizeBtn.TextColor3 = TextColorDim
+	MinimizeBtn.Font = MonoFontBold
+	MinimizeBtn.TextSize = 18
+	MinimizeBtn.Parent = TopBar
+
 	CloseBtn.MouseEnter:Connect(function()
-		TweenService:Create(CloseBtn, TweenInfo.new(0.15), {TextColor3 = TextColor}):Play()
+		TweenService:Create(CloseBtn, TweenInfo.new(0.15), {TextColor3 = Color3.fromRGB(220, 80, 80)}):Play()
 	end)
 	CloseBtn.MouseLeave:Connect(function()
 		TweenService:Create(CloseBtn, TweenInfo.new(0.15), {TextColor3 = TextColorDim}):Play()
+	end)
+
+	MinimizeBtn.MouseEnter:Connect(function()
+		TweenService:Create(MinimizeBtn, TweenInfo.new(0.15), {TextColor3 = TextColor}):Play()
+	end)
+	MinimizeBtn.MouseLeave:Connect(function()
+		TweenService:Create(MinimizeBtn, TweenInfo.new(0.15), {TextColor3 = TextColorDim}):Play()
 	end)
 
 	local Divider = Instance.new("Frame")
@@ -466,261 +483,270 @@ function Hub:CreateWindow(config)
 		end)
 
 		if not authValid then
-		MainFrame.Visible = false
-		ShadowImage.Visible = false
-		OpenButton.Visible = false
+			MainFrame.Visible = false
+			ShadowImage.Visible = false
+			OpenButton.Visible = false
 
-		local keyImgAsset = nil
-		pcall(function()
-			local url = "https://raw.githubusercontent.com/Okaygotenitsme/MelotenHub/main/Key.png"
-			writefile("Key_Melo.png", game:HttpGet(url))
-			keyImgAsset = getcustomasset("Key_Melo.png")
-		end)
+			local keyImgAsset = nil
+			pcall(function()
+				local url = "https://raw.githubusercontent.com/Okaygotenitsme/MelotenHub/main/Key.png"
+				writefile("Key_Melo.png", game:HttpGet(url))
+				keyImgAsset = getcustomasset("Key_Melo.png")
+			end)
 
-		local KW, KH = 340, 160
-		local KeyFrame = Instance.new("Frame")
-		KeyFrame.Name = "KeyFrame"
-		KeyFrame.Size = UDim2.new(0, KW, 0, KH)
-		KeyFrame.Position = UDim2.new(0.5, -KW/2, 0.5, -KH/2)
-		KeyFrame.BackgroundColor3 = DarkBg
-		KeyFrame.BorderSizePixel = 0
-		KeyFrame.ZIndex = 100
-		KeyFrame.Parent = ScreenGui
+			local KW, KH = 340, 160
+			local KeyFrame = Instance.new("Frame")
+			KeyFrame.Name = "KeyFrame"
+			KeyFrame.Size = UDim2.new(0, KW, 0, KH)
+			KeyFrame.Position = UDim2.new(0.5, -KW/2, 0.5, -KH/2)
+			KeyFrame.BackgroundColor3 = DarkBg
+			KeyFrame.BorderSizePixel = 0
+			KeyFrame.ZIndex = 100
+			KeyFrame.Parent = ScreenGui
 
-		Instance.new("UICorner", KeyFrame).CornerRadius = UDim.new(0, 6)
-		local KStroke = Instance.new("UIStroke", KeyFrame)
-		KStroke.Color = BorderColor
-		KStroke.Thickness = 1
+			Instance.new("UICorner", KeyFrame).CornerRadius = UDim.new(0, 6)
+			local KStroke = Instance.new("UIStroke", KeyFrame)
+			KStroke.Color = BorderColor
+			KStroke.Thickness = 1
 
-		local KShadow = Instance.new("ImageLabel")
-		KShadow.BackgroundTransparency = 1
-		KShadow.Image = "rbxassetid://6014261993"
-		KShadow.ImageColor3 = Color3.new(0, 0, 0)
-		KShadow.ImageTransparency = 0.45
-		KShadow.ScaleType = Enum.ScaleType.Slice
-		KShadow.SliceCenter = Rect.new(49, 49, 450, 450)
-		KShadow.Size = UDim2.new(0, KW + 60, 0, KH + 60)
-		KShadow.Position = UDim2.new(0, KeyFrame.AbsolutePosition.X - 30, 0, KeyFrame.AbsolutePosition.Y - 30)
-		KShadow.AnchorPoint = Vector2.new(0, 0)
-		KShadow.ZIndex = 99
-		KShadow.Parent = ScreenGui
-
-		local KTopBar = Instance.new("Frame")
-		KTopBar.Size = UDim2.new(1, 0, 0, 36)
-		KTopBar.BackgroundColor3 = PanelBg
-		KTopBar.BorderSizePixel = 0
-		KTopBar.ZIndex = 101
-		KTopBar.Parent = KeyFrame
-		Instance.new("UICorner", KTopBar).CornerRadius = UDim.new(0, 6)
-
-		local KTopFix = Instance.new("Frame")
-		KTopFix.Size = UDim2.new(1, 0, 0, 8)
-		KTopFix.Position = UDim2.new(0, 0, 1, -8)
-		KTopFix.BackgroundColor3 = PanelBg
-		KTopFix.BorderSizePixel = 0
-		KTopFix.ZIndex = 101
-		KTopFix.Parent = KTopBar
-
-		local KIcon = Instance.new("ImageLabel")
-		KIcon.BackgroundTransparency = 1
-		KIcon.Size = UDim2.new(0, 18, 0, 18)
-		KIcon.Position = UDim2.new(0, 12, 0.5, -9)
-		KIcon.Image = keyImgAsset or ""
-		KIcon.ImageColor3 = PurpleAccent
-		KIcon.ZIndex = 102
-		KIcon.Parent = KTopBar
-
-		local KTitle = Instance.new("TextLabel")
-		KTitle.Text = config.KeyTitle or "Key system"
-		KTitle.Size = UDim2.new(1, -46, 1, 0)
-		KTitle.Position = UDim2.new(0, 38, 0, 0)
-		KTitle.BackgroundTransparency = 1
-		KTitle.TextColor3 = TextColor
-		KTitle.Font = MonoFontBold
-		KTitle.TextSize = 14
-		KTitle.TextXAlignment = Enum.TextXAlignment.Left
-		KTitle.ZIndex = 102
-		KTitle.Parent = KTopBar
-
-		local KDivider = Instance.new("Frame")
-		KDivider.Size = UDim2.new(1, 0, 0, 1)
-		KDivider.Position = UDim2.new(0, 0, 0, 36)
-		KDivider.BackgroundColor3 = BorderColor
-		KDivider.BorderSizePixel = 0
-		KDivider.ZIndex = 101
-		KDivider.Parent = KeyFrame
-
-		local KInputBox = Instance.new("TextBox")
-		KInputBox.PlaceholderText = "Enter key..."
-		KInputBox.Text = ""
-		KInputBox.Size = UDim2.new(1, -28, 0, 28)
-		KInputBox.Position = UDim2.new(0, 14, 0, 48)
-		KInputBox.BackgroundColor3 = PanelBg
-		KInputBox.TextColor3 = TextColor
-		KInputBox.PlaceholderColor3 = TextColorDim
-		KInputBox.Font = MonoFont
-		KInputBox.TextSize = 13
-		KInputBox.TextXAlignment = Enum.TextXAlignment.Left
-		KInputBox.ClearTextOnFocus = false
-		KInputBox.ZIndex = 102
-		KInputBox.Parent = KeyFrame
-
-		local KInputCorner = Instance.new("UICorner", KInputBox)
-		KInputCorner.CornerRadius = UDim.new(0, 4)
-		local KInputStroke = Instance.new("UIStroke", KInputBox)
-		KInputStroke.Color = BorderColor
-		KInputStroke.Thickness = 1
-		local KInputPad = Instance.new("UIPadding", KInputBox)
-		KInputPad.PaddingLeft = UDim.new(0, 8)
-
-		KInputBox.Focused:Connect(function()
-			TweenService:Create(KInputStroke, TweenInfo.new(0.15), {Color = PurpleAccent}):Play()
-		end)
-		KInputBox.FocusLost:Connect(function()
-			TweenService:Create(KInputStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
-		end)
-
-		local KErrorLabel = Instance.new("TextLabel")
-		KErrorLabel.Text = ""
-		KErrorLabel.Size = UDim2.new(1, -28, 0, 14)
-		KErrorLabel.Position = UDim2.new(0, 14, 0, 80)
-		KErrorLabel.BackgroundTransparency = 1
-		KErrorLabel.TextColor3 = Color3.fromRGB(220, 80, 80)
-		KErrorLabel.Font = MonoFont
-		KErrorLabel.TextSize = 12
-		KErrorLabel.TextXAlignment = Enum.TextXAlignment.Left
-		KErrorLabel.ZIndex = 102
-		KErrorLabel.Parent = KeyFrame
-
-		local BtnY = 100
-		local BtnW = 120
-
-		local KConfirmBtn = Instance.new("TextButton")
-		KConfirmBtn.Text = "Activate"
-		KConfirmBtn.Size = UDim2.new(0, BtnW, 0, 28)
-		KConfirmBtn.Position = UDim2.new(0, 14, 0, BtnY)
-		KConfirmBtn.BackgroundColor3 = PurpleAccent
-		KConfirmBtn.TextColor3 = TextColor
-		KConfirmBtn.Font = MonoFontBold
-		KConfirmBtn.TextSize = 13
-		KConfirmBtn.ZIndex = 102
-		KConfirmBtn.Parent = KeyFrame
-		Instance.new("UICorner", KConfirmBtn).CornerRadius = UDim.new(0, 4)
-
-		local KGetBtn = Instance.new("TextButton")
-		KGetBtn.Text = "Get Key"
-		KGetBtn.Size = UDim2.new(0, BtnW, 0, 28)
-		KGetBtn.Position = UDim2.new(0, 14 + BtnW + 8, 0, BtnY)
-		KGetBtn.BackgroundColor3 = PanelBg
-		KGetBtn.TextColor3 = TextColorDim
-		KGetBtn.Font = MonoFont
-		KGetBtn.TextSize = 13
-		KGetBtn.ZIndex = 102
-		KGetBtn.Parent = KeyFrame
-		Instance.new("UICorner", KGetBtn).CornerRadius = UDim.new(0, 4)
-		local KGetStroke = Instance.new("UIStroke", KGetBtn)
-		KGetStroke.Color = BorderColor
-		KGetStroke.Thickness = 1
-
-		KGetBtn.MouseEnter:Connect(function()
-			TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = TextColor}):Play()
-			TweenService:Create(KGetStroke, TweenInfo.new(0.15), {Color = PurpleAccent}):Play()
-		end)
-		KGetBtn.MouseLeave:Connect(function()
-			TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = TextColorDim}):Play()
-			TweenService:Create(KGetStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
-		end)
-
-		makeDraggable(KTopBar, KeyFrame)
-
-		KeyFrame:GetPropertyChangedSignal("Position"):Connect(function()
+			local KShadow = Instance.new("ImageLabel")
+			KShadow.BackgroundTransparency = 1
+			KShadow.Image = "rbxassetid://6014261993"
+			KShadow.ImageColor3 = Color3.new(0, 0, 0)
+			KShadow.ImageTransparency = 0.45
+			KShadow.ScaleType = Enum.ScaleType.Slice
+			KShadow.SliceCenter = Rect.new(49, 49, 450, 450)
+			KShadow.Size = UDim2.new(0, KW + 60, 0, KH + 60)
 			KShadow.Position = UDim2.new(0, KeyFrame.AbsolutePosition.X - 30, 0, KeyFrame.AbsolutePosition.Y - 30)
-		end)
+			KShadow.AnchorPoint = Vector2.new(0, 0)
+			KShadow.ZIndex = 99
+			KShadow.Parent = ScreenGui
 
-		local function checkKey(input)
-			if config.KeyUrl then
-				local ok = false
-				pcall(function()
-					local url = config.KeyUrl .. "?key=" .. input .. "&id=" .. hubID
-					local response = game:HttpGet(url)
-					response = response:gsub("%s+", "")
-					ok = (response == "true")
-				end)
-				return ok
-			elseif config.ValidKeys then
-				for _, k in ipairs(config.ValidKeys) do
-					if k == input then
-						return true
+			local KTopBar = Instance.new("Frame")
+			KTopBar.Size = UDim2.new(1, 0, 0, 36)
+			KTopBar.BackgroundColor3 = PanelBg
+			KTopBar.BorderSizePixel = 0
+			KTopBar.ZIndex = 101
+			KTopBar.Parent = KeyFrame
+			Instance.new("UICorner", KTopBar).CornerRadius = UDim.new(0, 6)
+
+			local KTopFix = Instance.new("Frame")
+			KTopFix.Size = UDim2.new(1, 0, 0, 8)
+			KTopFix.Position = UDim2.new(0, 0, 1, -8)
+			KTopFix.BackgroundColor3 = PanelBg
+			KTopFix.BorderSizePixel = 0
+			KTopFix.ZIndex = 101
+			KTopFix.Parent = KTopBar
+
+			local KIcon = Instance.new("ImageLabel")
+			KIcon.BackgroundTransparency = 1
+			KIcon.Size = UDim2.new(0, 18, 0, 18)
+			KIcon.Position = UDim2.new(0, 12, 0.5, -9)
+			KIcon.Image = keyImgAsset or ""
+			KIcon.ImageColor3 = PurpleAccent
+			KIcon.ZIndex = 102
+			KIcon.Parent = KTopBar
+
+			local KTitle = Instance.new("TextLabel")
+			KTitle.Text = config.KeyTitle or "Key system"
+			KTitle.Size = UDim2.new(1, -46, 1, 0)
+			KTitle.Position = UDim2.new(0, 38, 0, 0)
+			KTitle.BackgroundTransparency = 1
+			KTitle.TextColor3 = TextColor
+			KTitle.Font = MonoFontBold
+			KTitle.TextSize = 14
+			KTitle.TextXAlignment = Enum.TextXAlignment.Left
+			KTitle.ZIndex = 102
+			KTitle.Parent = KTopBar
+
+			local KDivider = Instance.new("Frame")
+			KDivider.Size = UDim2.new(1, 0, 0, 1)
+			KDivider.Position = UDim2.new(0, 0, 0, 36)
+			KDivider.BackgroundColor3 = BorderColor
+			KDivider.BorderSizePixel = 0
+			KDivider.ZIndex = 101
+			KDivider.Parent = KeyFrame
+
+			local KInputBox = Instance.new("TextBox")
+			KInputBox.PlaceholderText = "Enter key..."
+			KInputBox.Text = ""
+			KInputBox.Size = UDim2.new(1, -28, 0, 28)
+			KInputBox.Position = UDim2.new(0, 14, 0, 48)
+			KInputBox.BackgroundColor3 = PanelBg
+			KInputBox.TextColor3 = TextColor
+			KInputBox.PlaceholderColor3 = TextColorDim
+			KInputBox.Font = MonoFont
+			KInputBox.TextSize = 13
+			KInputBox.TextXAlignment = Enum.TextXAlignment.Left
+			KInputBox.ClearTextOnFocus = false
+			KInputBox.ZIndex = 102
+			KInputBox.Parent = KeyFrame
+
+			local KInputCorner = Instance.new("UICorner", KInputBox)
+			KInputCorner.CornerRadius = UDim.new(0, 4)
+			local KInputStroke = Instance.new("UIStroke", KInputBox)
+			KInputStroke.Color = BorderColor
+			KInputStroke.Thickness = 1
+			local KInputPad = Instance.new("UIPadding", KInputBox)
+			KInputPad.PaddingLeft = UDim.new(0, 8)
+
+			KInputBox.Focused:Connect(function()
+				TweenService:Create(KInputStroke, TweenInfo.new(0.15), {Color = PurpleAccent}):Play()
+			end)
+			KInputBox.FocusLost:Connect(function()
+				TweenService:Create(KInputStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
+			end)
+
+			local KErrorLabel = Instance.new("TextLabel")
+			KErrorLabel.Text = ""
+			KErrorLabel.Size = UDim2.new(1, -28, 0, 14)
+			KErrorLabel.Position = UDim2.new(0, 14, 0, 80)
+			KErrorLabel.BackgroundTransparency = 1
+			KErrorLabel.TextColor3 = Color3.fromRGB(220, 80, 80)
+			KErrorLabel.Font = MonoFont
+			KErrorLabel.TextSize = 12
+			KErrorLabel.TextXAlignment = Enum.TextXAlignment.Left
+			KErrorLabel.ZIndex = 102
+			KErrorLabel.Parent = KeyFrame
+
+			local BtnY = 100
+			local BtnW = 120
+
+			local KConfirmBtn = Instance.new("TextButton")
+			KConfirmBtn.Text = "Activate"
+			KConfirmBtn.Size = UDim2.new(0, BtnW, 0, 28)
+			KConfirmBtn.Position = UDim2.new(0, 14, 0, BtnY)
+			KConfirmBtn.BackgroundColor3 = PurpleAccent
+			KConfirmBtn.TextColor3 = TextColor
+			KConfirmBtn.Font = MonoFontBold
+			KConfirmBtn.TextSize = 13
+			KConfirmBtn.ZIndex = 102
+			KConfirmBtn.Parent = KeyFrame
+			Instance.new("UICorner", KConfirmBtn).CornerRadius = UDim.new(0, 4)
+
+			local KGetBtn = Instance.new("TextButton")
+			KGetBtn.Text = "Get Key"
+			KGetBtn.Size = UDim2.new(0, BtnW, 0, 28)
+			KGetBtn.Position = UDim2.new(0, 14 + BtnW + 8, 0, BtnY)
+			KGetBtn.BackgroundColor3 = PanelBg
+			KGetBtn.TextColor3 = TextColorDim
+			KGetBtn.Font = MonoFont
+			KGetBtn.TextSize = 13
+			KGetBtn.ZIndex = 102
+			KGetBtn.Parent = KeyFrame
+			Instance.new("UICorner", KGetBtn).CornerRadius = UDim.new(0, 4)
+			local KGetStroke = Instance.new("UIStroke", KGetBtn)
+			KGetStroke.Color = BorderColor
+			KGetStroke.Thickness = 1
+
+			KGetBtn.MouseEnter:Connect(function()
+				TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = TextColor}):Play()
+				TweenService:Create(KGetStroke, TweenInfo.new(0.15), {Color = PurpleAccent}):Play()
+			end)
+			KGetBtn.MouseLeave:Connect(function()
+				TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = TextColorDim}):Play()
+				TweenService:Create(KGetStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
+			end)
+
+			makeDraggable(KTopBar, KeyFrame)
+
+			KeyFrame:GetPropertyChangedSignal("Position"):Connect(function()
+				KShadow.Position = UDim2.new(0, KeyFrame.AbsolutePosition.X - 30, 0, KeyFrame.AbsolutePosition.Y - 30)
+			end)
+
+			local function checkKey(input)
+				if config.KeyUrl then
+					local ok = false
+					pcall(function()
+						local url = config.KeyUrl .. "?key=" .. input .. "&id=" .. hubID
+						local response = game:HttpGet(url)
+						response = response:gsub("%s+", "")
+						ok = (response == "true")
+					end)
+					return ok
+				elseif config.ValidKeys then
+					for _, k in ipairs(config.ValidKeys) do
+						if k == input then
+							return true
+						end
 					end
 				end
+				return false
 			end
-			return false
-		end
 
-		KConfirmBtn.MouseButton1Click:Connect(function()
-			local input = KInputBox.Text
-			local ok = checkKey(input)
-			if ok then
-				pcall(function()
-					writefile(authFile, hubID .. "|" .. input .. "|" .. tostring(os.time()))
-				end)
-				local fadeTween = TweenService:Create(KeyFrame, TweenInfo.new(0.2), {BackgroundTransparency = 1})
-				TweenService:Create(KShadow, TweenInfo.new(0.2), {ImageTransparency = 1}):Play()
-				TweenService:Create(KTitle, TweenInfo.new(0.2), {TextTransparency = 1}):Play()
-				TweenService:Create(KIcon, TweenInfo.new(0.2), {ImageTransparency = 1}):Play()
-				TweenService:Create(KInputBox, TweenInfo.new(0.2), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
-				TweenService:Create(KInputStroke, TweenInfo.new(0.2), {Transparency = 1}):Play()
-				TweenService:Create(KStroke, TweenInfo.new(0.2), {Transparency = 1}):Play()
-				TweenService:Create(KConfirmBtn, TweenInfo.new(0.2), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
-				TweenService:Create(KGetBtn, TweenInfo.new(0.2), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
-				TweenService:Create(KDivider, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
-				TweenService:Create(KTopBar, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
-				fadeTween:Play()
-				fadeTween.Completed:Wait()
-				KeyFrame:Destroy()
-				KShadow:Destroy()
-				MainFrame.Visible = true
-				ShadowImage.Visible = true
-				task.defer(syncShadow)
-			else
-				KErrorLabel.Text = "Invalid key."
-				KInputStroke.Color = Color3.fromRGB(200, 60, 60)
-				task.delay(2, function()
-					KErrorLabel.Text = ""
-					TweenService:Create(KInputStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
-				end)
-			end
-		end)
-
-		KGetBtn.MouseButton1Click:Connect(function()
-			if not config.KeyLink then return end
-			setclipboard(config.KeyLink)
-			local prev = KGetBtn.Text
-			KGetBtn.Text = "Copied!"
-			TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = PurpleAccent}):Play()
-			task.delay(1.5, function()
-				KGetBtn.Text = prev
-				TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = TextColorDim}):Play()
+			KConfirmBtn.MouseButton1Click:Connect(function()
+				local input = KInputBox.Text
+				local ok = checkKey(input)
+				if ok then
+					pcall(function()
+						writefile(authFile, hubID .. "|" .. input .. "|" .. tostring(os.time()))
+					end)
+					local fadeTween = TweenService:Create(KeyFrame, TweenInfo.new(0.2), {BackgroundTransparency = 1})
+					TweenService:Create(KShadow, TweenInfo.new(0.2), {ImageTransparency = 1}):Play()
+					TweenService:Create(KTitle, TweenInfo.new(0.2), {TextTransparency = 1}):Play()
+					TweenService:Create(KIcon, TweenInfo.new(0.2), {ImageTransparency = 1}):Play()
+					TweenService:Create(KInputBox, TweenInfo.new(0.2), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
+					TweenService:Create(KInputStroke, TweenInfo.new(0.2), {Transparency = 1}):Play()
+					TweenService:Create(KConfirmBtn, TweenInfo.new(0.2), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
+					TweenService:Create(KGetBtn, TweenInfo.new(0.2), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
+					TweenService:Create(KDivider, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
+					TweenService:Create(KTopBar, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
+					TweenService:Create(KStroke, TweenInfo.new(0.2), {Transparency = 1}):Play()
+					fadeTween:Play()
+					fadeTween.Completed:Wait()
+					KeyFrame:Destroy()
+					KShadow:Destroy()
+					MainFrame.Visible = true
+					ShadowImage.Visible = true
+					task.defer(syncShadow)
+				else
+					KErrorLabel.Text = "Invalid key."
+					KInputStroke.Color = Color3.fromRGB(200, 60, 60)
+					task.delay(2, function()
+						KErrorLabel.Text = ""
+						TweenService:Create(KInputStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
+					end)
+				end
 			end)
-		end)
-		end -- if not authValid
+
+			KGetBtn.MouseButton1Click:Connect(function()
+				if not config.KeyLink then return end
+				setclipboard(config.KeyLink)
+				local prev = KGetBtn.Text
+				KGetBtn.Text = "Copied!"
+				TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = PurpleAccent}):Play()
+				task.delay(1.5, function()
+					KGetBtn.Text = prev
+					TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = TextColorDim}):Play()
+				end)
+			end)
+		end
 	end
 
 	CloseBtn.MouseButton1Click:Connect(function()
+		_G.__HUB_INSTANCES[hubID] = nil
+		local fadeTween = TweenService:Create(MainFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, W, 0, 0), Position = UDim2.new(0.5, -W/2, 0.5, 0)})
+		TweenService:Create(ShadowImage, TweenInfo.new(0.2), {ImageTransparency = 1}):Play()
+		fadeTween:Play()
+		fadeTween.Completed:Wait()
+		ScreenGui:Destroy()
+	end)
+
+	MinimizeBtn.MouseButton1Click:Connect(function()
 		TweenService:Create(MainFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, W, 0, 0), Position = UDim2.new(0.5, -W/2, 0.5, 0)}):Play()
 		task.wait(0.2)
 		MainFrame.Visible = false
-		MainFrame.Size = UDim2.new(0, W, 0, H)
-		MainFrame.Position = UDim2.new(0.5, -W/2, 0.5, -H/2)
+		MainFrame.Size = UDim2.new(0, self._W, 0, self._H)
+		MainFrame.Position = UDim2.new(0.5, -self._W/2, 0.5, -self._H/2)
 		OpenButton.Visible = true
 	end)
 
 	OpenButton.MouseButton1Click:Connect(function()
 		OpenButton.Visible = false
 		MainFrame.Visible = true
-		MainFrame.Size = UDim2.new(0, W, 0, 0)
-		MainFrame.Position = UDim2.new(0.5, -W/2, 0.5, 0)
-		TweenService:Create(MainFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {Size = UDim2.new(0, W, 0, H), Position = UDim2.new(0.5, -W/2, 0.5, -H/2)}):Play()
+		MainFrame.Size = UDim2.new(0, self._W, 0, 0)
+		MainFrame.Position = UDim2.new(0.5, -self._W/2, 0.5, 0)
+		TweenService:Create(MainFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {Size = UDim2.new(0, self._W, 0, self._H), Position = UDim2.new(0.5, -self._W/2, 0.5, -self._H/2)}):Play()
 	end)
 
 	self._tabContainer = TabContainer
@@ -833,7 +859,7 @@ function Hub:CreateWindow(config)
 			end
 		end
 
-		function tab:AddToggle(labelText, callback)
+		function tab:AddToggle(labelText, defaultState, callback)
 			local ToggleFrame = Instance.new("Frame")
 			ToggleFrame.Size = UDim2.new(1, -4, 0, 34)
 			ToggleFrame.BackgroundTransparency = 1
@@ -878,16 +904,16 @@ function Hub:CreateWindow(config)
 
 			local state = false
 
-			local function setState(on)
+			local function setState(on, silent)
 				state = on
 				local swColor = on and PurpleAccent or Color3.fromRGB(35, 35, 40)
 				local circPos = on and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7)
 				local circColor = on and TextColor or Color3.fromRGB(130, 130, 140)
 				local labelColor = on and TextColor or TextColorDim
-
 				TweenService:Create(Sw, TweenInfo.new(0.15), {BackgroundColor3 = swColor}):Play()
 				TweenService:Create(Circ, TweenInfo.new(0.15), {Position = circPos, BackgroundColor3 = circColor}):Play()
 				TweenService:Create(Label, TweenInfo.new(0.15), {TextColor3 = labelColor}):Play()
+				if not silent and callback then callback(state) end
 			end
 
 			SwBtn.MouseEnter:Connect(function()
@@ -898,13 +924,23 @@ function Hub:CreateWindow(config)
 			end)
 			SwBtn.MouseButton1Click:Connect(function()
 				setState(not state)
-				callback(state)
 			end)
 
 			ToggleFrame.BackgroundColor3 = ElementBgHover
 			Instance.new("UICorner", ToggleFrame).CornerRadius = UDim.new(0, 4)
 
+			if defaultState then
+				setState(true, true)
+			end
+
 			registerSearchable(ToggleFrame, labelText)
+
+			local api = {}
+			function api:Set(val, silent) setState(val, silent) end
+			function api:Get() return state end
+			function api:Toggle(silent) setState(not state, silent) end
+			function api:SetLabel(text) Label.Text = text end
+			return api
 		end
 
 		function tab:AddButton(labelText, buttonText, callback)
@@ -963,10 +999,26 @@ function Hub:CreateWindow(config)
 				task.delay(0.12, function()
 					TweenService:Create(Btn, TweenInfo.new(0.12), {BackgroundColor3 = PanelBg}):Play()
 				end)
-				callback()
+				if callback then callback() end
 			end)
 
 			registerSearchable(Frame, labelText)
+
+			local api = {}
+			function api:SetLabel(text) Label.Text = text end
+			function api:SetButtonText(text) Btn.Text = text end
+			function api:Fire() if callback then callback() end end
+			function api:SetEnabled(val)
+				Btn.AutoButtonColor = val
+				if val then
+					Btn.TextColor3 = TextColor
+					BtnStroke.Color = BorderColor
+				else
+					Btn.TextColor3 = TextColorDim
+					BtnStroke.Color = Color3.fromRGB(25, 25, 30)
+				end
+			end
+			return api
 		end
 
 		function tab:AddSlider(labelText, minVal, maxVal, defaultVal, callback)
@@ -1026,6 +1078,7 @@ function Hub:CreateWindow(config)
 			BottomDivider.Parent = SliderFrame
 
 			local dragging = false
+			local currentValue = defaultVal
 
 			local HitArea = Instance.new("TextButton")
 			HitArea.Size = UDim2.new(1, 0, 0, 22)
@@ -1034,32 +1087,39 @@ function Hub:CreateWindow(config)
 			HitArea.Text = ""
 			HitArea.Parent = SliderFrame
 
-			local function updateSlider(inputX)
+			local function updateSlider(inputX, silent)
 				local rel = math.clamp((inputX - Track.AbsolutePosition.X) / Track.AbsoluteSize.X, 0, 1)
 				local value = math.floor(minVal + (maxVal - minVal) * rel)
+				currentValue = value
 				Fill.Size = UDim2.new(rel, 0, 1, 0)
 				Knob.Position = UDim2.new(rel, 0, 0.5, 0)
 				ValueLabel.Text = tostring(value)
-				callback(value)
+				if not silent and callback then callback(value) end
 			end
 
+			local inputChangedConn
 			HitArea.InputBegan:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
 					dragging = true
 					updateSlider(input.Position.X)
-				end
-			end)
-
-			UserInputService.InputChanged:Connect(function(input)
-				if not dragging then return end
-				if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-					updateSlider(input.Position.X)
+					inputChangedConn = UserInputService.InputChanged:Connect(function(inp)
+						if not dragging then return end
+						if inp.UserInputType == Enum.UserInputType.MouseMovement or inp.UserInputType == Enum.UserInputType.Touch then
+							updateSlider(inp.Position.X)
+						end
+					end)
 				end
 			end)
 
 			UserInputService.InputEnded:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-					dragging = false
+					if dragging then
+						dragging = false
+						if inputChangedConn then
+							inputChangedConn:Disconnect()
+							inputChangedConn = nil
+						end
+					end
 				end
 			end)
 
@@ -1078,6 +1138,22 @@ function Hub:CreateWindow(config)
 			end)
 
 			registerSearchable(SliderFrame, labelText)
+
+			local api = {}
+			function api:Set(val, silent)
+				val = math.clamp(val, minVal, maxVal)
+				local ratio = (val - minVal) / (maxVal - minVal)
+				currentValue = val
+				Fill.Size = UDim2.new(ratio, 0, 1, 0)
+				Knob.Position = UDim2.new(ratio, 0, 0.5, 0)
+				ValueLabel.Text = tostring(val)
+				if not silent and callback then callback(val) end
+			end
+			function api:Get() return currentValue end
+			function api:SetLabel(text) Label.Text = text end
+			function api:SetMin(val) minVal = val end
+			function api:SetMax(val) maxVal = val end
+			return api
 		end
 
 		function tab:AddInput(labelText, placeholderText, callback)
@@ -1115,6 +1191,9 @@ function Hub:CreateWindow(config)
 			local TextBoxCorner = Instance.new("UICorner", TextBox)
 			TextBoxCorner.CornerRadius = UDim.new(0, 4)
 
+			local TextPad = Instance.new("UIPadding", TextBox)
+			TextPad.PaddingLeft = UDim.new(0, 6)
+
 			local BottomDivider = Instance.new("Frame")
 			BottomDivider.Size = UDim2.new(1, 0, 0, 1)
 			BottomDivider.Position = UDim2.new(0, 0, 1, -2)
@@ -1124,20 +1203,26 @@ function Hub:CreateWindow(config)
 
 			TextBox.Focused:Connect(function()
 				TweenService:Create(TextStroke, TweenInfo.new(0.15), {Color = PurpleAccent}):Play()
+				TweenService:Create(InputFrame, TweenInfo.new(0.15), {BackgroundTransparency = 0.92}):Play()
 			end)
 			TextBox.FocusLost:Connect(function()
 				TweenService:Create(TextStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
-				callback(TextBox.Text)
+				TweenService:Create(InputFrame, TweenInfo.new(0.15), {BackgroundTransparency = 1}):Play()
+				if callback then callback(TextBox.Text) end
 			end)
 
 			InputFrame.BackgroundColor3 = ElementBgHover
 			Instance.new("UICorner", InputFrame).CornerRadius = UDim.new(0, 4)
 
-			TextBox.Focused:Connect(function()
-				TweenService:Create(InputFrame, TweenInfo.new(0.15), {BackgroundTransparency = 0.92}):Play()
-			end)
-
 			registerSearchable(InputFrame, labelText)
+
+			local api = {}
+			function api:Set(text) TextBox.Text = text end
+			function api:Get() return TextBox.Text end
+			function api:SetLabel(text) Label.Text = text end
+			function api:SetPlaceholder(text) TextBox.PlaceholderText = text end
+			function api:Clear() TextBox.Text = "" end
+			return api
 		end
 
 		function tab:AddLabel(text, color)
@@ -1155,6 +1240,12 @@ function Hub:CreateWindow(config)
 			Label.TextSize = 13
 			Label.TextXAlignment = Enum.TextXAlignment.Left
 			Label.Parent = LabelFrame
+
+			local api = {}
+			function api:Set(t) Label.Text = t end
+			function api:Get() return Label.Text end
+			function api:SetColor(c) Label.TextColor3 = c end
+			return api
 		end
 
 		function tab:AddSection(text)
@@ -1179,6 +1270,11 @@ function Hub:CreateWindow(config)
 			Divider.BackgroundColor3 = BorderColor
 			Divider.BorderSizePixel = 0
 			Divider.Parent = SectionFrame
+
+			local api = {}
+			function api:Set(t) Label.Text = t end
+			function api:Get() return Label.Text end
+			return api
 		end
 
 		function tab:AddMultiToggle(labelText, options, callback)
@@ -1256,27 +1352,35 @@ function Hub:CreateWindow(config)
 					TweenService:Create(OptLabel, TweenInfo.new(0.15), {TextColor3 = labelColor}):Play()
 				end
 
-				controls[optName] = function(state)
+				controls[optName] = function(state, silent)
 					optState = state
 					selected[optName] = state
 					applyVisual(state)
+					if not silent and callback then callback(selected) end
 				end
 
 				SwBtn.MouseButton1Click:Connect(function()
 					optState = not optState
 					selected[optName] = optState
 					applyVisual(optState)
-					callback(selected)
+					if callback then callback(selected) end
 				end)
 			end
 
 			local api = {}
-			function api:SetAll(state)
+			function api:SetAll(state, silent)
 				for _, setter in pairs(controls) do
-					setter(state)
+					setter(state, true)
 				end
-				callback(selected)
+				if not silent and callback then callback(selected) end
 			end
+			function api:Set(option, state, silent)
+				if controls[option] then
+					controls[option](state, silent)
+				end
+			end
+			function api:Get() return selected end
+			function api:GetOption(option) return selected[option] == true end
 			return api
 		end
 
@@ -1344,6 +1448,22 @@ function Hub:CreateWindow(config)
 			local MenuLayout = Instance.new("UIListLayout", Menu)
 			MenuLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
+			local optBtns = {}
+
+			local function selectOption(option, silent)
+				selected = option
+				Btn.Text = option .. "  ▾"
+				for _, child in ipairs(Menu:GetChildren()) do
+					if child:IsA("TextButton") then
+						child.TextColor3 = child.Text == selected and TextColor or TextColorDim
+					end
+				end
+				Menu.Visible = false
+				open = false
+				TweenService:Create(BtnStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
+				if not silent and callback then callback(selected) end
+			end
+
 			for _, option in ipairs(options) do
 				local OptBtn = Instance.new("TextButton")
 				OptBtn.Text = option
@@ -1355,6 +1475,7 @@ function Hub:CreateWindow(config)
 				OptBtn.TextTruncate = Enum.TextTruncate.AtEnd
 				OptBtn.ZIndex = 11
 				OptBtn.Parent = Menu
+				optBtns[option] = OptBtn
 
 				OptBtn.MouseEnter:Connect(function()
 					TweenService:Create(OptBtn, TweenInfo.new(0.1), {TextColor3 = TextColor}):Play()
@@ -1365,17 +1486,7 @@ function Hub:CreateWindow(config)
 					end
 				end)
 				OptBtn.MouseButton1Click:Connect(function()
-					selected = option
-					Btn.Text = option .. "  ▾"
-					for _, child in ipairs(Menu:GetChildren()) do
-						if child:IsA("TextButton") then
-							child.TextColor3 = child.Text == selected and TextColor or TextColorDim
-						end
-					end
-					Menu.Visible = false
-					open = false
-					TweenService:Create(BtnStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
-					callback(selected)
+					selectOption(option)
 				end)
 			end
 
@@ -1386,8 +1497,47 @@ function Hub:CreateWindow(config)
 			end)
 
 			registerSearchable(DropFrame, labelText)
-		end
 
+			local api = {}
+			function api:Set(option, silent) selectOption(option, silent) end
+			function api:Get() return selected end
+			function api:SetLabel(text) Label.Text = text end
+			function api:SetOptions(newOptions)
+				for _, child in ipairs(Menu:GetChildren()) do
+					if child:IsA("TextButton") then child:Destroy() end
+				end
+				optBtns = {}
+				options = newOptions
+				selected = newOptions[1]
+				Btn.Text = selected .. "  ▾"
+				Menu.Size = UDim2.new(0, 130, 0, #newOptions * 28)
+				for _, option in ipairs(newOptions) do
+					local OptBtn = Instance.new("TextButton")
+					OptBtn.Text = option
+					OptBtn.Size = UDim2.new(1, 0, 0, 28)
+					OptBtn.BackgroundTransparency = 1
+					OptBtn.TextColor3 = option == selected and TextColor or TextColorDim
+					OptBtn.Font = MonoFont
+					OptBtn.TextSize = 12
+					OptBtn.TextTruncate = Enum.TextTruncate.AtEnd
+					OptBtn.ZIndex = 11
+					OptBtn.Parent = Menu
+					optBtns[option] = OptBtn
+					OptBtn.MouseEnter:Connect(function()
+						TweenService:Create(OptBtn, TweenInfo.new(0.1), {TextColor3 = TextColor}):Play()
+					end)
+					OptBtn.MouseLeave:Connect(function()
+						if OptBtn.Text ~= selected then
+							TweenService:Create(OptBtn, TweenInfo.new(0.1), {TextColor3 = TextColorDim}):Play()
+						end
+					end)
+					OptBtn.MouseButton1Click:Connect(function()
+						selectOption(option)
+					end)
+				end
+			end
+			return api
+		end
 
 		function tab:AddParagraph(title, text)
 			local PFrame = Instance.new("Frame")
@@ -1446,6 +1596,8 @@ function Hub:CreateWindow(config)
 			local api = {}
 			function api:SetTitle(t) TitleLabel.Text = t end
 			function api:SetText(t) TextLabel.Text = t end
+			function api:GetTitle() return TitleLabel.Text end
+			function api:GetText() return TextLabel.Text end
 			return api
 		end
 
@@ -1527,7 +1679,7 @@ function Hub:CreateWindow(config)
 						TweenService:Create(KeyStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
 						listening = false
 						conn:Disconnect()
-						callback(currentKey)
+						if callback then callback(currentKey) end
 					end
 				end)
 			end)
@@ -1536,7 +1688,7 @@ function Hub:CreateWindow(config)
 				if gp then return end
 				if not listening and input.UserInputType == Enum.UserInputType.Keyboard then
 					if input.KeyCode.Name == currentKey then
-						callback(currentKey)
+						if callback then callback(currentKey) end
 					end
 				end
 			end)
@@ -1544,11 +1696,12 @@ function Hub:CreateWindow(config)
 			registerSearchable(KFrame, labelText)
 
 			local api = {}
-			function api:SetKey(k)
+			function api:Set(k)
 				currentKey = k
 				KeyBtn.Text = k
 			end
-			function api:GetKey() return currentKey end
+			function api:Get() return currentKey end
+			function api:SetLabel(text) Label.Text = text end
 			return api
 		end
 
@@ -1675,11 +1828,13 @@ function Hub:CreateWindow(config)
 				SVCursor.Position = UDim2.new(s, 0, 1 - v, 0)
 				HueCursor.Position = UDim2.new(h, 0, 0.5, 0)
 				HexBox.Text = "#" .. currentColor:ToHex()
-				callback(currentColor)
+				if callback then callback(currentColor) end
 			end
 
 			local svDragging = false
 			local hueDragging = false
+
+			local svConn, hueConn
 
 			SV.InputBegan:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -1689,6 +1844,15 @@ function Hub:CreateWindow(config)
 					s = math.clamp((input.Position.X - rel.X) / sz.X, 0, 1)
 					v = 1 - math.clamp((input.Position.Y - rel.Y) / sz.Y, 0, 1)
 					updateColor()
+					svConn = UserInputService.InputChanged:Connect(function(inp)
+						if svDragging and inp.UserInputType == Enum.UserInputType.MouseMovement then
+							local r = SV.AbsolutePosition
+							local sz2 = SV.AbsoluteSize
+							s = math.clamp((inp.Position.X - r.X) / sz2.X, 0, 1)
+							v = 1 - math.clamp((inp.Position.Y - r.Y) / sz2.Y, 0, 1)
+							updateColor()
+						end
+					end)
 				end
 			end)
 
@@ -1699,30 +1863,27 @@ function Hub:CreateWindow(config)
 					local sz = HueBar.AbsoluteSize
 					h = math.clamp((input.Position.X - rel.X) / sz.X, 0, 1)
 					updateColor()
-				end
-			end)
-
-			UserInputService.InputChanged:Connect(function(input)
-				if input.UserInputType == Enum.UserInputType.MouseMovement then
-					if svDragging then
-						local rel = SV.AbsolutePosition
-						local sz = SV.AbsoluteSize
-						s = math.clamp((input.Position.X - rel.X) / sz.X, 0, 1)
-						v = 1 - math.clamp((input.Position.Y - rel.Y) / sz.Y, 0, 1)
-						updateColor()
-					elseif hueDragging then
-						local rel = HueBar.AbsolutePosition
-						local sz = HueBar.AbsoluteSize
-						h = math.clamp((input.Position.X - rel.X) / sz.X, 0, 1)
-						updateColor()
-					end
+					hueConn = UserInputService.InputChanged:Connect(function(inp)
+						if hueDragging and inp.UserInputType == Enum.UserInputType.MouseMovement then
+							local r = HueBar.AbsolutePosition
+							local sz2 = HueBar.AbsoluteSize
+							h = math.clamp((inp.Position.X - r.X) / sz2.X, 0, 1)
+							updateColor()
+						end
+					end)
 				end
 			end)
 
 			UserInputService.InputEnded:Connect(function(input)
 				if input.UserInputType == Enum.UserInputType.MouseButton1 then
-					svDragging = false
-					hueDragging = false
+					if svDragging then
+						svDragging = false
+						if svConn then svConn:Disconnect() svConn = nil end
+					end
+					if hueDragging then
+						hueDragging = false
+						if hueConn then hueConn:Disconnect() hueConn = nil end
+					end
 				end
 			end)
 
@@ -1758,15 +1919,34 @@ function Hub:CreateWindow(config)
 			registerSearchable(CPFrame, labelText)
 
 			local api = {}
-			function api:SetColor(col)
+			function api:Set(col, silent)
 				h, s, v = Color3.toHSV(col)
-				updateColor()
+				currentColor = col
+				Preview.BackgroundColor3 = col
+				SV.BackgroundColor3 = Color3.fromHSV(h, 1, 1)
+				SVCursor.Position = UDim2.new(s, 0, 1 - v, 0)
+				HueCursor.Position = UDim2.new(h, 0, 0.5, 0)
+				HexBox.Text = "#" .. col:ToHex()
+				if not silent and callback then callback(col) end
 			end
-			function api:GetColor() return currentColor end
+			function api:Get() return currentColor end
+			function api:SetLabel(text) Label.Text = text end
 			return api
 		end
 
-		return tab
+		local tabApi = {}
+		function tabApi:Select()
+			TabBtn:FireEvent and TabBtn:FireEvent() or TabBtn.MouseButton1Click:Fire()
+		end
+		function tabApi:GetName() return name end
+		function tabApi:SetName(newName)
+			local base = icon and ("        " .. newName) or ("  " .. newName)
+			TabBtn.Text = base
+		end
+
+		setmetatable(tabApi, {__index = tab})
+
+		return tabApi
 	end
 
 	local ResizeHandle = Instance.new("TextButton")
@@ -1813,25 +1993,70 @@ function Hub:CreateWindow(config)
 		end
 	end)
 
-	UserInputService.InputChanged:Connect(function(input)
-		if not resizing then return end
-		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-			local delta = input.Position - resizeStart
-			local newW = math.max(MinW, sizeStart.X.Offset + delta.X)
-			local newH = math.max(MinH, sizeStart.Y.Offset + delta.Y)
-			MainFrame.Size = UDim2.new(0, newW, 0, newH)
-			self._W = newW
-			self._H = newH
+	local resizeConn
+	ResizeHandle.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			resizing = true
+			resizeStart = input.Position
+			sizeStart = MainFrame.Size
+			resizeConn = UserInputService.InputChanged:Connect(function(inp)
+				if not resizing then return end
+				if inp.UserInputType == Enum.UserInputType.MouseMovement or inp.UserInputType == Enum.UserInputType.Touch then
+					local delta = inp.Position - resizeStart
+					local newW = math.max(MinW, sizeStart.X.Offset + delta.X)
+					local newH = math.max(MinH, sizeStart.Y.Offset + delta.Y)
+					MainFrame.Size = UDim2.new(0, newW, 0, newH)
+					self._W = newW
+					self._H = newH
+				end
+			end)
 		end
 	end)
 
 	UserInputService.InputEnded:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			resizing = false
+			if resizing then
+				resizing = false
+				if resizeConn then
+					resizeConn:Disconnect()
+					resizeConn = nil
+				end
+			end
 		end
 	end)
 
-	return self
+	local winApi = {}
+	function winApi:Close()
+		_G.__HUB_INSTANCES[hubID] = nil
+		local fadeTween = TweenService:Create(MainFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, self._W, 0, 0), Position = UDim2.new(0.5, -self._W/2, 0.5, 0)})
+		TweenService:Create(ShadowImage, TweenInfo.new(0.2), {ImageTransparency = 1}):Play()
+		fadeTween:Play()
+		fadeTween.Completed:Wait()
+		ScreenGui:Destroy()
+	end
+	function winApi:Minimize()
+		TweenService:Create(MainFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, self._W, 0, 0), Position = UDim2.new(0.5, -self._W/2, 0.5, 0)}):Play()
+		task.wait(0.2)
+		MainFrame.Visible = false
+		MainFrame.Size = UDim2.new(0, self._W, 0, self._H)
+		MainFrame.Position = UDim2.new(0.5, -self._W/2, 0.5, -self._H/2)
+		OpenButton.Visible = true
+	end
+	function winApi:Restore()
+		OpenButton.Visible = false
+		MainFrame.Visible = true
+		MainFrame.Size = UDim2.new(0, self._W, 0, 0)
+		MainFrame.Position = UDim2.new(0.5, -self._W/2, 0.5, 0)
+		TweenService:Create(MainFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {Size = UDim2.new(0, self._W, 0, self._H), Position = UDim2.new(0.5, -self._W/2, 0.5, -self._H/2)}):Play()
+	end
+	function winApi:SetTitle(text) TitleLabel.Text = text end
+	function winApi:GetTitle() return TitleLabel.Text end
+	function winApi:IsVisible() return MainFrame.Visible end
+	function winApi:Notify(title, text, duration) Hub:Notify(title, text, duration) end
+
+	setmetatable(winApi, {__index = self})
+
+	return winApi
 end
 
 return Hub
