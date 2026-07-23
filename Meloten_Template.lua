@@ -454,6 +454,9 @@ function Hub:CreateWindow(config)
 		end)
 
 		if authValid then
+			MainFrame.Visible = true
+			ShadowImage.Visible = true
+			OpenButton.Visible = true
 			return self
 		end
 
@@ -673,23 +676,14 @@ function Hub:CreateWindow(config)
 
 		KGetBtn.MouseButton1Click:Connect(function()
 			if not config.KeyLink then return end
-			if config.KeyLinkAction == "clipboard" then
-				pcall(function()
-					local key = config.KeyLink
-					setclipboard(key)
-				end)
-				local prev = KGetBtn.Text
-				KGetBtn.Text = "Copied!"
-				TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = PurpleAccent}):Play()
-				task.delay(1.5, function()
-					KGetBtn.Text = prev
-					TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = TextColorDim}):Play()
-				end)
-			else
-				pcall(function()
-					game:GetService("GuiService"):OpenBrowserWindow(config.KeyLink)
-				end)
-			end
+			setclipboard(config.KeyLink)
+			local prev = KGetBtn.Text
+			KGetBtn.Text = "Copied!"
+			TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = PurpleAccent}):Play()
+			task.delay(1.5, function()
+				KGetBtn.Text = prev
+				TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = TextColorDim}):Play()
+			end)
 		end)
 	end
 
