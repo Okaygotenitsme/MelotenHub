@@ -1936,7 +1936,7 @@ function Hub:CreateWindow(config)
 
 		local tabApi = {}
 		function tabApi:Select()
-			TabBtn:FireEvent and TabBtn:FireEvent() or TabBtn.MouseButton1Click:Fire()
+			TabBtn.MouseButton1Click:Fire()
 		end
 		function tabApi:GetName() return name end
 		function tabApi:SetName(newName)
