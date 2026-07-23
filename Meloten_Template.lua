@@ -1,7 +1,6 @@
-if _G.__HUB_ALREADY_RUNNING then
-	pcall(function() _G.__HUB_GUI:Destroy() end)
+if not _G.__HUB_INSTANCES then
+	_G.__HUB_INSTANCES = {}
 end
-_G.__HUB_ALREADY_RUNNING = true
 
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
@@ -25,7 +24,6 @@ local MonoFontBold = Enum.Font.Code
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "MelotenHub"
 ScreenGui.ResetOnSpawn = false
-_G.__HUB_GUI = ScreenGui
 
 if gethui then
 	ScreenGui.Parent = gethui()
@@ -173,6 +171,11 @@ local function makeDraggable(handle, target)
 end
 
 function Hub:CreateWindow(config)
+	local hubID = config.ID or "default"
+	if _G.__HUB_INSTANCES[hubID] then
+		pcall(function() _G.__HUB_INSTANCES[hubID]:Destroy() end)
+	end
+
 	local self = setmetatable({}, Hub)
 	self._currentTab = nil
 	self._currentPage = nil
@@ -193,6 +196,8 @@ function Hub:CreateWindow(config)
 	ShadowImage.AnchorPoint = Vector2.new(0.5, 0.5)
 	ShadowImage.ZIndex = 0
 	ShadowImage.Parent = ScreenGui
+
+	_G.__HUB_INSTANCES[hubID] = ScreenGui
 
 	MainFrame.Name = "MainFrame"
 	MainFrame.Size = UDim2.new(0, W, 0, H)
@@ -436,6 +441,256 @@ function Hub:CreateWindow(config)
 
 	makeDraggable(TopBar, MainFrame)
 	makeDraggable(OpenButton, OpenButton)
+
+	if config.KeySystem then
+		local keyDuration = config.KeyDuration or 86400
+		local authFile = "Key_Melo_auth_" .. (config.ID or "default") .. ".txt"
+		local authValid = false
+		pcall(function()
+			local saved = tonumber(readfile(authFile))
+			if saved and (os.time() - saved) < keyDuration then
+				authValid = true
+			end
+		end)
+
+		if authValid then
+			return self
+		end
+
+		MainFrame.Visible = false
+		ShadowImage.Visible = false
+		OpenButton.Visible = false
+
+		local keyImgAsset = nil
+		pcall(function()
+			local url = "https://raw.githubusercontent.com/Okaygotenitsme/MelotenHub/main/Key.png"
+			writefile("Key_Melo.png", game:HttpGet(url))
+			keyImgAsset = getcustomasset("Key_Melo.png")
+		end)
+
+		local KW, KH = 340, 160
+		local KeyFrame = Instance.new("Frame")
+		KeyFrame.Name = "KeyFrame"
+		KeyFrame.Size = UDim2.new(0, KW, 0, KH)
+		KeyFrame.Position = UDim2.new(0.5, -KW/2, 0.5, -KH/2)
+		KeyFrame.BackgroundColor3 = DarkBg
+		KeyFrame.BorderSizePixel = 0
+		KeyFrame.ZIndex = 100
+		KeyFrame.Parent = ScreenGui
+
+		Instance.new("UICorner", KeyFrame).CornerRadius = UDim.new(0, 6)
+		local KStroke = Instance.new("UIStroke", KeyFrame)
+		KStroke.Color = BorderColor
+		KStroke.Thickness = 1
+
+		local KShadow = Instance.new("ImageLabel")
+		KShadow.BackgroundTransparency = 1
+		KShadow.Image = "rbxassetid://6014261993"
+		KShadow.ImageColor3 = Color3.new(0, 0, 0)
+		KShadow.ImageTransparency = 0.45
+		KShadow.ScaleType = Enum.ScaleType.Slice
+		KShadow.SliceCenter = Rect.new(49, 49, 450, 450)
+		KShadow.Size = UDim2.new(0, KW + 60, 0, KH + 60)
+		KShadow.Position = UDim2.new(0, KeyFrame.AbsolutePosition.X - 30, 0, KeyFrame.AbsolutePosition.Y - 30)
+		KShadow.AnchorPoint = Vector2.new(0, 0)
+		KShadow.ZIndex = 99
+		KShadow.Parent = ScreenGui
+
+		local KTopBar = Instance.new("Frame")
+		KTopBar.Size = UDim2.new(1, 0, 0, 36)
+		KTopBar.BackgroundColor3 = PanelBg
+		KTopBar.BorderSizePixel = 0
+		KTopBar.ZIndex = 101
+		KTopBar.Parent = KeyFrame
+		Instance.new("UICorner", KTopBar).CornerRadius = UDim.new(0, 6)
+
+		local KTopFix = Instance.new("Frame")
+		KTopFix.Size = UDim2.new(1, 0, 0, 8)
+		KTopFix.Position = UDim2.new(0, 0, 1, -8)
+		KTopFix.BackgroundColor3 = PanelBg
+		KTopFix.BorderSizePixel = 0
+		KTopFix.ZIndex = 101
+		KTopFix.Parent = KTopBar
+
+		local KIcon = Instance.new("ImageLabel")
+		KIcon.BackgroundTransparency = 1
+		KIcon.Size = UDim2.new(0, 18, 0, 18)
+		KIcon.Position = UDim2.new(0, 12, 0.5, -9)
+		KIcon.Image = keyImgAsset or ""
+		KIcon.ImageColor3 = PurpleAccent
+		KIcon.ZIndex = 102
+		KIcon.Parent = KTopBar
+
+		local KTitle = Instance.new("TextLabel")
+		KTitle.Text = config.KeyTitle or "Key system"
+		KTitle.Size = UDim2.new(1, -46, 1, 0)
+		KTitle.Position = UDim2.new(0, 38, 0, 0)
+		KTitle.BackgroundTransparency = 1
+		KTitle.TextColor3 = TextColor
+		KTitle.Font = MonoFontBold
+		KTitle.TextSize = 14
+		KTitle.TextXAlignment = Enum.TextXAlignment.Left
+		KTitle.ZIndex = 102
+		KTitle.Parent = KTopBar
+
+		local KDivider = Instance.new("Frame")
+		KDivider.Size = UDim2.new(1, 0, 0, 1)
+		KDivider.Position = UDim2.new(0, 0, 0, 36)
+		KDivider.BackgroundColor3 = BorderColor
+		KDivider.BorderSizePixel = 0
+		KDivider.ZIndex = 101
+		KDivider.Parent = KeyFrame
+
+		local KInputBox = Instance.new("TextBox")
+		KInputBox.PlaceholderText = "Enter key..."
+		KInputBox.Text = ""
+		KInputBox.Size = UDim2.new(1, -28, 0, 28)
+		KInputBox.Position = UDim2.new(0, 14, 0, 48)
+		KInputBox.BackgroundColor3 = PanelBg
+		KInputBox.TextColor3 = TextColor
+		KInputBox.PlaceholderColor3 = TextColorDim
+		KInputBox.Font = MonoFont
+		KInputBox.TextSize = 13
+		KInputBox.TextXAlignment = Enum.TextXAlignment.Left
+		KInputBox.ClearTextOnFocus = false
+		KInputBox.ZIndex = 102
+		KInputBox.Parent = KeyFrame
+
+		local KInputCorner = Instance.new("UICorner", KInputBox)
+		KInputCorner.CornerRadius = UDim.new(0, 4)
+		local KInputStroke = Instance.new("UIStroke", KInputBox)
+		KInputStroke.Color = BorderColor
+		KInputStroke.Thickness = 1
+		local KInputPad = Instance.new("UIPadding", KInputBox)
+		KInputPad.PaddingLeft = UDim.new(0, 8)
+
+		KInputBox.Focused:Connect(function()
+			TweenService:Create(KInputStroke, TweenInfo.new(0.15), {Color = PurpleAccent}):Play()
+		end)
+		KInputBox.FocusLost:Connect(function()
+			TweenService:Create(KInputStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
+		end)
+
+		local KErrorLabel = Instance.new("TextLabel")
+		KErrorLabel.Text = ""
+		KErrorLabel.Size = UDim2.new(1, -28, 0, 14)
+		KErrorLabel.Position = UDim2.new(0, 14, 0, 80)
+		KErrorLabel.BackgroundTransparency = 1
+		KErrorLabel.TextColor3 = Color3.fromRGB(220, 80, 80)
+		KErrorLabel.Font = MonoFont
+		KErrorLabel.TextSize = 12
+		KErrorLabel.TextXAlignment = Enum.TextXAlignment.Left
+		KErrorLabel.ZIndex = 102
+		KErrorLabel.Parent = KeyFrame
+
+		local BtnY = 100
+		local BtnW = 120
+
+		local KConfirmBtn = Instance.new("TextButton")
+		KConfirmBtn.Text = "Activate"
+		KConfirmBtn.Size = UDim2.new(0, BtnW, 0, 28)
+		KConfirmBtn.Position = UDim2.new(0, 14, 0, BtnY)
+		KConfirmBtn.BackgroundColor3 = PurpleAccent
+		KConfirmBtn.TextColor3 = TextColor
+		KConfirmBtn.Font = MonoFontBold
+		KConfirmBtn.TextSize = 13
+		KConfirmBtn.ZIndex = 102
+		KConfirmBtn.Parent = KeyFrame
+		Instance.new("UICorner", KConfirmBtn).CornerRadius = UDim.new(0, 4)
+
+		local KGetBtn = Instance.new("TextButton")
+		KGetBtn.Text = "Get Key"
+		KGetBtn.Size = UDim2.new(0, BtnW, 0, 28)
+		KGetBtn.Position = UDim2.new(0, 14 + BtnW + 8, 0, BtnY)
+		KGetBtn.BackgroundColor3 = PanelBg
+		KGetBtn.TextColor3 = TextColorDim
+		KGetBtn.Font = MonoFont
+		KGetBtn.TextSize = 13
+		KGetBtn.ZIndex = 102
+		KGetBtn.Parent = KeyFrame
+		Instance.new("UICorner", KGetBtn).CornerRadius = UDim.new(0, 4)
+		local KGetStroke = Instance.new("UIStroke", KGetBtn)
+		KGetStroke.Color = BorderColor
+		KGetStroke.Thickness = 1
+
+		KGetBtn.MouseEnter:Connect(function()
+			TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = TextColor}):Play()
+			TweenService:Create(KGetStroke, TweenInfo.new(0.15), {Color = PurpleAccent}):Play()
+		end)
+		KGetBtn.MouseLeave:Connect(function()
+			TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = TextColorDim}):Play()
+			TweenService:Create(KGetStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
+		end)
+
+		makeDraggable(KTopBar, KeyFrame)
+
+		KeyFrame:GetPropertyChangedSignal("Position"):Connect(function()
+			KShadow.Position = UDim2.new(0, KeyFrame.AbsolutePosition.X - 30, 0, KeyFrame.AbsolutePosition.Y - 30)
+		end)
+
+		local validKeys = config.ValidKeys or {}
+
+		KConfirmBtn.MouseButton1Click:Connect(function()
+			local input = KInputBox.Text
+			local ok = false
+			for _, k in ipairs(validKeys) do
+				if k == input then
+					ok = true
+					break
+				end
+			end
+			if ok then
+				pcall(function()
+					writefile(authFile, tostring(os.time()))
+				end)
+				local fadeTween = TweenService:Create(KeyFrame, TweenInfo.new(0.2), {BackgroundTransparency = 1})
+				TweenService:Create(KShadow, TweenInfo.new(0.2), {ImageTransparency = 1}):Play()
+				TweenService:Create(KTitle, TweenInfo.new(0.2), {TextTransparency = 1}):Play()
+				TweenService:Create(KIcon, TweenInfo.new(0.2), {ImageTransparency = 1}):Play()
+				TweenService:Create(KInputBox, TweenInfo.new(0.2), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
+				TweenService:Create(KInputStroke, TweenInfo.new(0.2), {Transparency = 1}):Play()
+				TweenService:Create(KStroke, TweenInfo.new(0.2), {Transparency = 1}):Play()
+				TweenService:Create(KConfirmBtn, TweenInfo.new(0.2), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
+				TweenService:Create(KGetBtn, TweenInfo.new(0.2), {BackgroundTransparency = 1, TextTransparency = 1}):Play()
+				TweenService:Create(KDivider, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
+				TweenService:Create(KTopBar, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
+				fadeTween:Play()
+				fadeTween.Completed:Wait()
+				KeyFrame:Destroy()
+				KShadow:Destroy()
+				MainFrame.Visible = true
+				ShadowImage.Visible = true
+				task.defer(syncShadow)
+			else
+				KErrorLabel.Text = "Invalid key."
+				KInputStroke.Color = Color3.fromRGB(200, 60, 60)
+				task.delay(2, function()
+					KErrorLabel.Text = ""
+					TweenService:Create(KInputStroke, TweenInfo.new(0.15), {Color = BorderColor}):Play()
+				end)
+			end
+		end)
+
+		KGetBtn.MouseButton1Click:Connect(function()
+			if not config.KeyLink then return end
+			if config.KeyLinkAction == "clipboard" then
+				pcall(function()
+					setclipboard(config.KeyLink)
+				end)
+				local prev = KGetBtn.Text
+				KGetBtn.Text = "Copied!"
+				TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = PurpleAccent}):Play()
+				task.delay(1.5, function()
+					KGetBtn.Text = prev
+					TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = TextColorDim}):Play()
+				end)
+			else
+				pcall(function()
+					game:GetService("GuiService"):OpenBrowserWindow(config.KeyLink)
+				end)
+			end
+		end)
+	end
 
 	CloseBtn.MouseButton1Click:Connect(function()
 		TweenService:Create(MainFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, W, 0, 0), Position = UDim2.new(0.5, -W/2, 0.5, 0)}):Play()
