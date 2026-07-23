@@ -736,17 +736,17 @@ function Hub:CreateWindow(config)
 		TweenService:Create(MainFrame, TweenInfo.new(0.2), {Size = UDim2.new(0, W, 0, 0), Position = UDim2.new(0.5, -W/2, 0.5, 0)}):Play()
 		task.wait(0.2)
 		MainFrame.Visible = false
-		MainFrame.Size = UDim2.new(0, self._W, 0, self._H)
-		MainFrame.Position = UDim2.new(0.5, -self._W/2, 0.5, -self._H/2)
+		MainFrame.Size = UDim2.new(0, W, 0, H)
+		MainFrame.Position = UDim2.new(0.5, -W/2, 0.5, -H/2)
 		OpenButton.Visible = true
 	end)
 
 	OpenButton.MouseButton1Click:Connect(function()
 		OpenButton.Visible = false
 		MainFrame.Visible = true
-		MainFrame.Size = UDim2.new(0, self._W, 0, 0)
-		MainFrame.Position = UDim2.new(0.5, -self._W/2, 0.5, 0)
-		TweenService:Create(MainFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {Size = UDim2.new(0, self._W, 0, self._H), Position = UDim2.new(0.5, -self._W/2, 0.5, -self._H/2)}):Play()
+		MainFrame.Size = UDim2.new(0, W, 0, 0)
+		MainFrame.Position = UDim2.new(0.5, -W/2, 0.5, 0)
+		TweenService:Create(MainFrame, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {Size = UDim2.new(0, W, 0, H), Position = UDim2.new(0.5, -W/2, 0.5, -H/2)}):Play()
 	end)
 
 	self._tabContainer = TabContainer
