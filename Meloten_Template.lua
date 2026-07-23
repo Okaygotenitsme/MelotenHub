@@ -675,7 +675,8 @@ function Hub:CreateWindow(config)
 			if not config.KeyLink then return end
 			if config.KeyLinkAction == "clipboard" then
 				pcall(function()
-					setclipboard(config.KeyLink)
+					local key = config.KeyLink
+					setclipboard(key)
 				end)
 				local prev = KGetBtn.Text
 				KGetBtn.Text = "Copied!"
