@@ -453,13 +453,7 @@ function Hub:CreateWindow(config)
 			end
 		end)
 
-		if authValid then
-			MainFrame.Visible = true
-			ShadowImage.Visible = true
-			OpenButton.Visible = true
-			return self
-		end
-
+		if not authValid then
 		MainFrame.Visible = false
 		ShadowImage.Visible = false
 		OpenButton.Visible = false
@@ -685,6 +679,7 @@ function Hub:CreateWindow(config)
 				TweenService:Create(KGetBtn, TweenInfo.new(0.15), {TextColor3 = TextColorDim}):Play()
 			end)
 		end)
+		end -- if not authValid
 	end
 
 	CloseBtn.MouseButton1Click:Connect(function()
