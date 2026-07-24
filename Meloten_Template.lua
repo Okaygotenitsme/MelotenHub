@@ -549,7 +549,7 @@ function Hub:CreateWindow(config)
 
 			local KTitle = Instance.new("TextLabel")
 			KTitle.Text = config.KeyTitle or "Key system"
-			KTitle.Size = UDim2.new(1, -46, 1, 0)
+			KTitle.Size = UDim2.new(1, -74, 1, 0)
 			KTitle.Position = UDim2.new(0, 38, 0, 0)
 			KTitle.BackgroundTransparency = 1
 			KTitle.TextColor3 = TextColor
@@ -558,6 +558,29 @@ function Hub:CreateWindow(config)
 			KTitle.TextXAlignment = Enum.TextXAlignment.Left
 			KTitle.ZIndex = 102
 			KTitle.Parent = KTopBar
+
+			local KCloseBtn = Instance.new("TextButton")
+			KCloseBtn.Text = "×"
+			KCloseBtn.Size = UDim2.new(0, 28, 0, 28)
+			KCloseBtn.Position = UDim2.new(1, -32, 0.5, -14)
+			KCloseBtn.BackgroundTransparency = 1
+			KCloseBtn.TextColor3 = TextColorDim
+			KCloseBtn.Font = MonoFontBold
+			KCloseBtn.TextSize = 18
+			KCloseBtn.ZIndex = 102
+			KCloseBtn.Parent = KTopBar
+
+			KCloseBtn.MouseEnter:Connect(function()
+				TweenService:Create(KCloseBtn, TweenInfo.new(0.15), {TextColor3 = Color3.fromRGB(220, 80, 80)}):Play()
+			end)
+			KCloseBtn.MouseLeave:Connect(function()
+				TweenService:Create(KCloseBtn, TweenInfo.new(0.15), {TextColor3 = TextColorDim}):Play()
+			end)
+
+			KCloseBtn.MouseButton1Click:Connect(function()
+				_G.__HUB_INSTANCES[hubID] = nil
+				ScreenGui:Destroy()
+			end)
 
 			local KDivider = Instance.new("Frame")
 			KDivider.Size = UDim2.new(1, 0, 0, 1)
@@ -2006,6 +2029,8 @@ function Hub:CreateWindow(config)
 					local newW = math.max(MinW, sizeStart.X.Offset + delta.X)
 					local newH = math.max(MinH, sizeStart.Y.Offset + delta.Y)
 					MainFrame.Size = UDim2.new(0, newW, 0, newH)
+					W = newW
+					H = newH
 					self._W = newW
 					self._H = newH
 				end
